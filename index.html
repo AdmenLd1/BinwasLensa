@@ -151,6 +151,7 @@ async function removeFile(fileId){
   try{const r=await apiPost({action:'delete',fileId});if(!r.ok)throw new Error(r.error||'Hapus gagal');await renderFiles();await loadSemesterData();renderList();notify('Dokumen dihapus','File berhasil dihapus dari Google Drive.')}
   catch(e){notify('Gagal menghapus dokumen',e.message,'error')}finally{hideLoading()}
 }
-bindDropZone();\ngo('years');
+bindDropZone();
+go('years');
 
 </script></body></html>
