@@ -23,21 +23,90 @@
 <div class="groups"><div class="group"><b>A · PERENCANAAN</b><small>Indikator 1–3</small></div><div class="group"><b>B · PELAKSANAAN</b><small>Indikator 4–78</small></div><div class="group"><b>C · PENGADUAN & SANKSI</b><small>Indikator 79–87</small></div></div>
 <div id="list"></div></section>
 <section id="detail" class="panel hidden detail"><div class="sectionhead"><div><h2>Detail Indikator</h2><div class="sub" id="detailSub"></div></div><button class="btn ghost" onclick="go('modules')">← Kembali ke indikator</button></div><h3 id="detailTitle"></h3>
-<div class="field"><label>PERTANYAAN / SOAL</label><p id="question">Rujuk pertanyaan lengkap pada instrumen resmi yang dilampirkan.</p></div><div class="field"><label>DEFINISI OPERASIONAL (DO)</label><p>Definisi operasional mengikuti instrumen resmi Kementerian Kesehatan.</p></div><div class="field"><label>DATA DUKUNG (DAKUNG)</label><p>Jenis dokumen bukti dukung mengikuti instrumen resmi. Mohon gunakan PDF instrumen sebagai acuan sampai rincian per indikator dimasukkan ke sistem.</p></div>
-<div class="sectionhead" style="margin-top:18px"><div><h2>Dokumen Bukti Dukung</h2><div class="sub">Daftar file untuk indikator ini</div></div><label class="btn" for="fileInput">＋ Pilih Dokumen</label><input id="fileInput" type="file" multiple hidden onchange="addFiles(event)"></div><div class="empty" id="fileList">Belum ada dokumen yang dipilih.</div><div class="sub" style="margin-top:10px">Catatan: versi tampilan ini belum terhubung ke penyimpanan server. File yang dipilih hanya tercatat sementara di sesi browser dan tidak menjadi arsip bersama.</div></section>
+<div class="field"><label>PERTANYAAN / SOAL</label><p id="question">Memuat pertanyaan dari instrumen...</p></div><div class="field"><label>DEFINISI OPERASIONAL (DO)</label><p id="doText">Memuat definisi operasional...</p></div><div class="field"><label>DATA DUKUNG (DAKUNG)</label><p id="dakungText">Memuat data dukung...</p></div>
+<div class="sectionhead" style="margin-top:18px"><div><h2>Dokumen Bukti Dukung</h2><div class="sub">Daftar file untuk indikator ini</div></div><label class="btn" for="fileInput">＋ Pilih Dokumen</label><input id="fileInput" type="file" multiple hidden onchange="addFiles(event)"></div><div class="empty" id="fileList">Memuat dokumen...</div><div class="sub" style="margin-top:10px">Dokumen disimpan di Google Drive dan tercatat pada database BinwasLensa.</div></section>
 <div class="footer">BINWASLENSA · PUSKESMAS LENDAH I · 2026</div></div>
 <script>
-const indicators=Array.from({length:87},(_,i)=>({n:i+1,section:i<3?'A':i<78?'B':'C',name:'Indikator '+String(i+1).padStart(2,'0')+' · Lihat pertanyaan pada instrumen resmi'}));
-let semester=1,current=1,docs={1:{},2:{}};
+
+const API_URL = "https://script.google.com/macros/s/AKfycbzNfYAHef-eB_yJ_F_GoLeeZDYmSuh77KfdsW5WuIgznb1fOTOFfI9Fa8NgfwRpUC80_Q/exec";
+let semester=1,current=1,indicators=[],docs={1:{},2:{}};
+async function apiGet(action, params={}) {
+  const u=new URL(API_URL); u.searchParams.set('action',action);
+  Object.entries(params).forEach(([k,v])=>{if(v!==undefined&&v!==null&&v!=='')u.searchParams.set(k,v)});
+  const r=await fetch(u.toString(),{method:'GET',redirect:'follow'});
+  if(!r.ok) throw new Error('Server merespons HTTP '+r.status);
+  return await r.json();
+}
+async function apiPost(payload) {
+  const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload),redirect:'follow'});
+  if(!r.ok) throw new Error('Server merespons HTTP '+r.status);
+  return await r.json();
+}
 function go(id){['years','semesters','modules','detail'].forEach(x=>document.getElementById(x).classList.toggle('hidden',x!==id));updateCrumb(id)}
 function updateCrumb(id){let names={years:'Beranda',semesters:'Beranda › Tahun 2026',modules:'Beranda › Tahun 2026 › Semester '+(semester===1?'I':'II'),detail:'Beranda › Tahun 2026 › Semester '+(semester===1?'I':'II')+' › Indikator '+current};document.getElementById('crumb').textContent=names[id]}
 function openYear(y){if(y===2026)go('semesters')}
-function openSemester(s){semester=s;document.getElementById('moduleTitle').textContent='Indikator · Semester '+(s===1?'I':'II')+' · 2026';go('modules');renderList()}
+async function openSemester(s){semester=s;document.getElementById('moduleTitle').textContent='Indikator · Semester '+(s===1?'I':'II')+' · 2026';go('modules');document.getElementById('list').innerHTML='<div class="empty">Memuat data indikator dan dokumen...</div>';try{await loadSemesterData();renderList()}catch(e){document.getElementById('list').innerHTML='<div class="empty">Gagal memuat data: '+escapeHtml(e.message)+'</div>'}}
 function key(n){return 'i'+n}
-function renderList(){let q=document.getElementById('search').value.toLowerCase(),f=document.getElementById('filter').value;let done=indicators.filter(x=>(docs[semester][key(x.n)]||[]).length).length;document.getElementById('filled').textContent=done;document.getElementById('missing').textContent=87-done;document.getElementById('bar').style.width=(done/87*100)+'%';let arr=indicators.filter(x=>(String(x.n).includes(q)||x.name.toLowerCase().includes(q))&&(f==='all'||(f==='done'?((docs[semester][key(x.n)]||[]).length>0):(!(docs[semester][key(x.n)]||[]).length))));document.getElementById('list').innerHTML=arr.map(x=>{let count=(docs[semester][key(x.n)]||[]).length;return '<div class="indicator"><div class="num">'+String(x.n).padStart(2,'0')+'</div><div class="indtext"><b>'+x.name+'</b><small>Bagian '+x.section+' · '+count+' dokumen</small></div><span class="status '+(count?'done':'')+'">'+(count?'Sudah terisi':'Belum terisi')+'</span><button class="btn ghost" onclick="openDetail('+x.n+')">Buka indikator →</button></div>'}).join('')||'<div class="empty">Tidak ada indikator yang cocok.</div>'}
-function openDetail(n){current=n;let x=indicators[n-1];document.getElementById('detailSub').textContent='Indikator '+n+' · Bagian '+x.section+' · Semester '+(semester===1?'I':'II')+' 2026';document.getElementById('detailTitle').textContent=x.name;go('detail');renderFiles()}
-function addFiles(e){let k=key(current);docs[semester][k]=docs[semester][k]||[];Array.from(e.target.files).forEach(f=>docs[semester][k].push({name:f.name,size:f.size}));e.target.value='';renderFiles()}
-function renderFiles(){let a=docs[semester][key(current)]||[];let el=document.getElementById('fileList');if(!a.length){el.textContent='Belum ada dokumen yang dipilih.';return}el.className='files';el.innerHTML=a.map((f,i)=>'<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px;border-bottom:1px solid #e5edf5"><span>📄 '+f.name+' <small>('+Math.max(1,Math.round(f.size/1024))+' KB)</small></span><button class="btn danger" onclick="removeFile('+i+')">Hapus</button></div>').join('')}
-function removeFile(i){docs[semester][key(current)].splice(i,1);renderFiles()}
+async function loadSemesterData(){
+  const [ir,dr]=await Promise.all([apiGet('indicators',{tahun:2026}),apiGet('documents',{tahun:2026,semester:'SEMESTER '+(semester===1?'I':'II')})]);
+  if(!ir.ok)throw new Error(ir.error||'Data indikator gagal dibaca');
+  if(!dr.ok)throw new Error(dr.error||'Data dokumen gagal dibaca');
+  indicators=(ir.data||[]).map(x=>({n:Number(x.nomor),section:x.bagian,subBagian:x.subBagian||'',name:x.soal||('Indikator '+x.nomor),soal:x.soal||'',doText:x.do||'',dakung:x.dakung||''}));
+  docs[semester]={};
+  (dr.data||[]).forEach(d=>{const k=key(d.nomor);(docs[semester][k]||(docs[semester][k]=[])).push(d)});
+  if(indicators.length!==87) console.warn('Jumlah indikator yang diterima:',indicators.length);
+}
+function renderList(){
+  const q=document.getElementById('search').value.toLowerCase(),f=document.getElementById('filter').value;
+  const done=indicators.filter(x=>(docs[semester][key(x.n)]||[]).length).length;
+  document.getElementById('total').textContent=indicators.length;
+  document.getElementById('filled').textContent=done;
+  document.getElementById('missing').textContent=indicators.length-done;
+  document.getElementById('bar').style.width=(indicators.length?done/indicators.length*100:0)+'%';
+  const arr=indicators.filter(x=>(String(x.n).includes(q)||x.name.toLowerCase().includes(q)||x.subBagian.toLowerCase().includes(q))&&(f==='all'||(f==='done'?((docs[semester][key(x.n)]||[]).length>0):(!(docs[semester][key(x.n)]||[]).length))));
+  document.getElementById('list').innerHTML=arr.map(x=>{let count=(docs[semester][key(x.n)]||[]).length;return '<div class="indicator"><div class="num">'+String(x.n).padStart(2,'0')+'</div><div class="indtext"><b>'+escapeHtml(x.name)+'</b><small>Bagian '+escapeHtml(x.section)+' · '+count+' dokumen</small></div><span class="status '+(count?'done':'')+'">'+(count?'Sudah terisi':'Belum terisi')+'</span><button class="btn ghost" onclick="openDetail('+x.n+')">Buka indikator →</button></div>'}).join('')||'<div class="empty">Tidak ada indikator yang cocok.</div>';
+}
+function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function openDetail(n){
+  current=n;const x=indicators.find(v=>v.n===n);if(!x)return;
+  document.getElementById('detailSub').textContent='Indikator '+n+' · Bagian '+x.section+' · Semester '+(semester===1?'I':'II')+' 2026';
+  document.getElementById('detailTitle').textContent='Indikator '+n+(x.subBagian?' · '+x.subBagian:'');
+  document.getElementById('question').textContent=x.soal;
+  document.getElementById('doText').textContent=x.doText;
+  document.getElementById('dakungText').textContent=x.dakung;
+  go('detail');renderFiles();
+}
+async function renderFiles(){
+  const el=document.getElementById('fileList');el.className='empty';el.textContent='Memuat dokumen...';
+  try{
+    const r=await apiGet('documents',{tahun:2026,semester:'SEMESTER '+(semester===1?'I':'II'),nomor:current});
+    if(!r.ok)throw new Error(r.error||'Gagal membaca dokumen');
+    const a=r.data||[];
+    docs[semester][key(current)]=a;
+    if(!a.length){el.className='empty';el.textContent='Belum ada dokumen pada indikator ini.';return}
+    el.className='files';
+    el.innerHTML=a.map(d=>'<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px;border-bottom:1px solid #e5edf5;flex-wrap:wrap"><span>📄 '+escapeHtml(d.namaFile)+' <small>('+Math.max(1,Math.round((d.ukuran||0)/1024))+' KB)</small></span><span style="display:flex;gap:7px"><a class="btn ghost" href="'+escapeHtml(d.url)+'" target="_blank" rel="noopener">Lihat / Unduh</a><button class="btn danger" onclick="removeFile(\''+escapeHtml(d.fileId)+'\')">Hapus</button></span></div>').join('');
+  }catch(e){el.className='empty';el.textContent='Gagal memuat dokumen: '+e.message}
+}
+function fileToBase64(file){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(String(r.result).split(',')[1]);r.onerror=reject;r.readAsDataURL(file)})}
+async function addFiles(e){
+  const files=Array.from(e.target.files||[]);e.target.value='';if(!files.length)return;
+  const el=document.getElementById('fileList');el.className='empty';
+  for(let i=0;i<files.length;i++){
+    const file=files[i];el.textContent='Mengunggah '+(i+1)+' dari '+files.length+': '+file.name;
+    try{
+      const base64=await fileToBase64(file);
+      const result=await apiPost({action:'upload',tahun:'2026',semester:'SEMESTER '+(semester===1?'I':'II'),nomor:current,fileName:file.name,mimeType:file.type,base64});
+      if(!result.ok)throw new Error(result.error||'Upload gagal');
+    }catch(err){alert('Gagal mengunggah '+file.name+': '+err.message)}
+  }
+  await renderFiles();await loadSemesterData();renderList();
+}
+async function removeFile(fileId){
+  if(!confirm('Yakin ingin menghapus dokumen ini dari Google Drive?'))return;
+  try{const r=await apiPost({action:'delete',fileId});if(!r.ok)throw new Error(r.error||'Hapus gagal');await renderFiles();await loadSemesterData();renderList()}
+  catch(e){alert('Gagal menghapus dokumen: '+e.message)}
+}
 go('years');
+
 </script></body></html>
