@@ -441,7 +441,7 @@ body{font-size:15px;line-height:1.55;color:#20334b;background:#f5f7fb;letter-spa
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
 
 </style></head><body><div class="wrap">
-<header class="top"><div class="brand"><div class="logo">BL</div><div>BinwasLensa<small>PUSKESMAS LENDAH I</small></div></div><span class="pill">PORTAL BINWAS SDMK</span></header>
+<header class="top"><div class="brand"><div class="logo" aria-hidden="true"><svg viewBox="0 0 64 64" role="img"><path d="M32 4 55 17v30L32 60 9 47V17Z" fill="none" stroke="currentColor" stroke-width="4"/><path d="M27 15h10v12h12v10H37v12H27V37H15V27h12Z" fill="currentColor"/><path d="M13 12Q4 22 15 34M51 12Q60 22 49 34" fill="none" stroke="#a6e900" stroke-width="3" stroke-linecap="round"/></svg></div><div>BinwasLensa<small>UPT PUSKESMAS LENDAH I</small></div></div><span class="pill">PORTAL BINWAS SDMK</span></header>
 <section id="hero" class="hero"><div class="eyebrow">PENGAWASAN DAN PEMBINAAN</div><h1>Dokumen SDM Kesehatan</h1><p>Portal pengumpulan dan monitoring kelengkapan dokumen bukti dukung berdasarkan Instrumen Pembinaan dan Pengawasan SDM Kesehatan Tahun 2026.</p></section>
 <div class="crumb" id="crumb"><span>Beranda</span></div>
 <section id="years" class="panel"><div class="sectionhead"><div><h2>Pilih Tahun Penilaian</h2><div class="sub">Tentukan periode pengumpulan dokumen</div></div></div><div class="yeargrid">
@@ -791,3 +791,75 @@ bindDropZone();
 go('years');
 
 </script></body></html>
+<style id="lendah-brand-refresh">
+:root{
+ --bg:#f3f8f6;--ink:#163b36;--muted:#66817a;--line:#dcebe5;
+ --blue:#078c91;--cyan:#08b7c5;--green:#078b48;--amber:#a66d12;
+ --brand-deep:#075d54;--brand-teal:#00aeb5;--brand-lime:#a6e900;
+}
+body{background:var(--bg);color:var(--ink)}
+.wrap{max-width:1280px}
+.top{border-bottom:1px solid #d8e9e2}
+.brand{color:#075d54}
+.brand small{color:#64847b;letter-spacing:1.25px}
+.logo{width:54px;height:54px;flex:0 0 54px;border-radius:16px;background:#fff;color:#078b48;border:1px solid #dcebe5;box-shadow:0 4px 14px #075d5412;padding:5px}
+.logo svg{width:100%;height:100%;display:block}
+.top>.pill{background:#e5f7ef;border:1px solid #c8ebd9;color:#087b53}
+.hero{background:linear-gradient(115deg,#075d54 0%,#008e91 58%,#08a9b2 100%);box-shadow:0 12px 30px #087b5320}
+.hero .eyebrow{color:#d7ff8a}
+.hero p{color:#e4fbf4}
+.hero:after{border-color:#ffffff20;box-shadow:0 0 0 28px #ffffff0a,0 0 0 58px #ffffff07}
+.panel{border-color:#dcebe5;box-shadow:0 4px 18px #164b3a08}
+.sectionhead h2,.detail h3{color:#164c40}
+.year h3,.semester h3{color:#087e70}
+.year.active,.semester.active{background:#e9f8f0;border-color:#8ed5ae}
+.year:hover,.semester:hover{border-color:#78c7a1}
+.stat{background:#fbfefc;border-color:#e0eee7}
+.stat strong{color:#087e70}
+.progress i{background:linear-gradient(90deg,#078b48,#a6e900)}
+.group{border-left-color:#00aeb5}
+.group b{color:#12634f}
+.num{background:#e7f7ef;color:#087b53;box-shadow:inset 0 0 0 1px #cfeadd}
+.indicator{border-color:#e0ece6}
+.indicator:hover{border-color:#9bd4b6;background:#fcfffd}
+.indicator .status.done{background:#e5f7ed;color:#087b53}
+.indicator .status{background:#fff5df;color:#93620e}
+.indicator .status.no{background:#fff0ed;color:#b14c3d}
+.btn:not(.ghost):not(.danger),.download-selected{background:#087f67;color:white}
+.btn:not(.ghost):not(.danger):hover,.download-selected:hover{background:#066a56}
+.btn.ghost{background:#e8f5ef;color:#08745b}
+.btn.danger{background:#fff0ed;color:#b44b3d}
+.assess-select{border-color:#d6e8df}
+.assess-select:focus,.search-wrap .search:focus,.select:focus{outline:3px solid #d8f2e4;border-color:#68b98e}
+.search-wrap .search{border-color:#d8e8e0;background:#fcfffd}
+.search-icon{color:#4b8671}
+.subgroup{border-color:#dcebe4}
+.subgroup summary{background:#f7fcf9}
+.subgroup-code{background:#e4f5eb;color:#08734f}
+.subgroup-title b{color:#165b46}
+.subgroup-progress{color:#087b53}
+.group-progress-track i{background:#0b9b68}
+.field{background:#f8fcfa;border-color:#e2eee8}
+.field label{color:#608077}
+.dropzone{border-color:#9bcdb6;background:#f7fcf9}
+.dropzone .drop-icon{background:#e4f5eb;color:#087b67}
+.dropzone b{color:#17644d}
+.upload-progress-fill{background:linear-gradient(90deg,#078b67,#a6e900)}
+.toast{border-left-color:#08a58d}
+.toast.success{border-left-color:#078b48}
+.footer{color:#829d93}
+@media(max-width:850px){
+ .indicator{grid-template-columns:48px minmax(0,1fr) auto}
+}
+@media(max-width:480px){
+ .top{align-items:center;gap:10px}
+ .brand{font-size:14px;gap:9px}
+ .brand small{font-size:8px}
+ .logo{width:46px;height:46px;flex-basis:46px}
+ .top>.pill{font-size:8px;padding:7px 9px}
+}
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto}
+ *,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+</style>
