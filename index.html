@@ -1144,3 +1144,24 @@ body{background:var(--bg);color:var(--ink)}
  .hero-live-dot,.orbit-one,.orbit-two,.hero-number-card,.tag-top,.tag-bottom{animation:none!important}
 }
 </style>
+
+
+<style id="binwas-logo-size-adjustment">
+/* Logo diperbesar agar identitas Puskesmas lebih menonjol */
+.hero-editorial-brand{gap:15px;margin-bottom:27px}
+.hero-editorial-logo{
+ width:76px;height:76px;flex:0 0 76px;
+ padding:4px;border-radius:17px;
+ box-shadow:0 7px 18px #075d3818;
+}
+.hero-editorial-brand b{font-size:11px;letter-spacing:1.15px}
+.hero-editorial-brand small{font-size:9px;letter-spacing:1.4px}
+@media(max-width:760px){
+ .hero-editorial-logo{width:68px;height:68px;flex-basis:68px}
+ .hero-editorial-brand b{font-size:10px}
+}
+@media(max-width:420px){
+ .hero-editorial-logo{width:62px;height:62px;flex-basis:62px}
+ .hero-editorial-brand{gap:12px}
+}
+</style>
