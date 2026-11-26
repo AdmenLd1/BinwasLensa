@@ -291,7 +291,8 @@ function getSubgroupInfo(n){
  ];
  return groups.find(g=>n>=g[0]&&n<=g[1])||[n,n,'','Kelompok Indikator',''];
 }
-function clearIndicatorSearch(){document.getElementById('search').value='';renderList();document.getElementById('search').focus()}\nfunction renderList(){
+function clearIndicatorSearch(){document.getElementById('search').value='';renderList();document.getElementById('search').focus()}
+function renderList(){
  const q=document.getElementById('search').value.toLowerCase(),f=document.getElementById('filter').value;
  const filled=indicators.filter(x=>getIndicatorStatus(x.n)==='done').length;
  const notFilled=indicators.filter(x=>getIndicatorStatus(x.n)==='notfilled').length;
@@ -319,8 +320,11 @@ function clearIndicatorSearch(){document.getElementById('search').value='';rende
    const manual=status==='notfilled'?'TIDAK':'AUTO';
    return '<div class="indicator"><div class="num">'+String(x.n).padStart(2,'0')+'</div><div class="indtext"><b>'+escapeHtml(x.name)+'</b><small>Sub Bag '+escapeHtml(x.subBagian||'—')+' · '+count+' dokumen</small></div><span class="status '+cls+'">'+label+'</span><select class="assess-select" aria-label="Status pengisian indikator '+x.n+'" onchange="saveAssessment('+x.n+',this.value)"><option value="AUTO" '+(manual==='AUTO'?'selected':'')+'>Otomatis</option><option value="TIDAK" '+(manual==='TIDAK'?'selected':'')+'>Tidak Diisi</option></select><button class="btn ghost" onclick="openDetail('+x.n+')">Detail</button></div>';
   }).join('');
-  const complete=items.filter(x=>getIndicatorStatus(x.n)==='done').length;\n  const remaining=items.length-complete;\n  return '<details class="subgroup" '+(q||idx===0?'open':'')+'><summary><span class="subgroup-code">'+escapeHtml(g[2])+'</span><span class="subgroup-title"><b>'+escapeHtml(g[3])+'</b><small>'+escapeHtml(g[4])+'</small></span><span class="subgroup-progress"><b>'+complete+'/'+items.length+'</b><small>lengkap</small></span><span class="subgroup-chevron">⌄</span></summary><div class="subgroup-items"><div class="group-progress-track"><i style="width:'+(items.length?complete/items.length*100:0)+'%"></i></div>'+rows+'</div></details>';
- }).join('')||'<div class="empty"><b>Indikator tidak ditemukan</b><br>Coba kata kunci lain atau ubah filter status.</div>';\n document.getElementById('visibleCount').textContent='Menampilkan '+arr.length+' dari '+indicators.length+' indikator';
+  const complete=items.filter(x=>getIndicatorStatus(x.n)==='done').length;
+  const remaining=items.length-complete;
+  return '<details class="subgroup" '+(q||idx===0?'open':'')+'><summary><span class="subgroup-code">'+escapeHtml(g[2])+'</span><span class="subgroup-title"><b>'+escapeHtml(g[3])+'</b><small>'+escapeHtml(g[4])+'</small></span><span class="subgroup-progress"><b>'+complete+'/'+items.length+'</b><small>lengkap</small></span><span class="subgroup-chevron">⌄</span></summary><div class="subgroup-items"><div class="group-progress-track"><i style="width:'+(items.length?complete/items.length*100:0)+'%"></i></div>'+rows+'</div></details>';
+ }).join('')||'<div class="empty"><b>Indikator tidak ditemukan</b><br>Coba kata kunci lain atau ubah filter status.</div>';
+ document.getElementById('visibleCount').textContent='Menampilkan '+arr.length+' dari '+indicators.length+' indikator';
 }
 
 function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
