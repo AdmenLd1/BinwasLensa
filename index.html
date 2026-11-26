@@ -71,6 +71,10 @@ body{background:#f5f7fa;color:#18283b;letter-spacing:-.12px}.wrap{max-width:1240
 <section id="detail" class="panel hidden detail"><div class="sectionhead"><div><h2>Detail Indikator</h2><div class="sub" id="detailSub"></div></div><button class="btn ghost" onclick="go('modules')">← Kembali ke indikator</button></div><h3 id="detailTitle"></h3>
 <div class="field"><label>PERTANYAAN / SOAL</label><p id="question">Memuat pertanyaan dari instrumen...</p></div><div class="field"><label>DEFINISI OPERASIONAL (DO)</label><p id="doText">Memuat definisi operasional...</p></div><div class="field"><label>DATA DUKUNG (DAKUNG)</label><p id="dakungText">Memuat data dukung...</p></div>
 <div class="sectionhead" style="margin-top:18px"><div><h2>Status Pengisian</h2><div class="sub">Status otomatis mengikuti dokumen yang diunggah</div></div></div><div class="field"><label>STATUS MANUAL (JIKA TIDAK AKAN MENGISI)</label><select id="detailAssessment" class="assess-select" style="max-width:220px" onchange="saveAssessment(current,this.value)"><option value="AUTO">Otomatis</option><option value="TIDAK">Tidak Diisi</option></select><div class="sub" style="margin-top:8px">Jika dokumen diunggah, status otomatis menjadi Sudah Diisi.</div></div><div class="sectionhead" style="margin-top:18px"><div><h2>Dokumen Bukti Dukung</h2><div class="sub">Pilih beberapa file sekaligus atau seret file ke area unggah</div></div></div>
+<div id="copySemesterBox" class="field hidden" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+ <div><label>SALIN DOKUMEN KE SEMESTER II</label><p style="font-size:10px;color:#718096">Gunakan dokumen indikator ini di Semester II tanpa mengunggah ulang atau menggandakan file di Google Drive.</p></div>
+ <button class="btn" id="copySemesterBtn" onclick="copyIndicatorToSemesterII()">Salin ke Semester II →</button>
+</div>
 <div id="dropZone" class="dropzone" role="button" tabindex="0" onclick="document.getElementById('fileInput').click()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();document.getElementById('fileInput').click()}">
 <div class="drop-icon">⇧</div><b>Tarik dan letakkan dokumen di sini</b><small>atau klik untuk memilih beberapa file sekaligus<br>Format: PDF, Word, Excel, JPG, PNG · Maksimal 8 MB per file</small><div id="fileQueue" class="file-queue"></div>
 </div><div id="uploadProgress" class="upload-progress hidden" aria-live="polite"><div class="upload-progress-head"><span>Progres unggahan</span><span id="uploadProgressCount">0/0</span></div><div class="upload-progress-track"><div id="uploadProgressFill" class="upload-progress-fill"></div></div><div class="upload-progress-summary"><span id="uploadProgressSummary">Menunggu unggahan</span><span id="uploadProgressActive">0 sedang diproses</span></div><div id="uploadProgressRows"></div></div><input id="fileInput" type="file" multiple hidden onchange="addFiles(event)"><div class="empty" id="fileList" style="margin-top:14px">Memuat dokumen...</div><div class="sub" style="margin-top:10px">Dokumen disimpan di Google Drive dan tercatat pada database BinwasLensa.</div></section>
@@ -151,7 +155,7 @@ function openDetail(n){
   document.getElementById('question').textContent=x.soal;
   document.getElementById('doText').textContent=x.doText;
   document.getElementById('dakungText').textContent=x.dakung;
-  document.getElementById('detailAssessment').value=assessments[semester][key(n)]==='TIDAK'?'TIDAK':'AUTO';go('detail');renderFiles();
+  document.getElementById('detailAssessment').value=assessments[semester][key(n)]==='TIDAK'?'TIDAK':'AUTO';document.getElementById('copySemesterBox').classList.toggle('hidden',semester!==1);go('detail');renderFiles();
 }
 async function renderFiles(){
   const el=document.getElementById('fileList');el.className='empty';el.textContent='Memuat dokumen...';
@@ -164,6 +168,22 @@ async function renderFiles(){
     el.className='files';
     el.innerHTML='<div class="doc-toolbar"><label class="doc-count"><input type="checkbox" id="selectAllDocs" onchange="toggleAllDocs(this.checked)"> Pilih semua</label><button class="download-selected" id="downloadSelectedBtn" disabled onclick="downloadSelectedFiles()">Unduh file terpilih (0)</button></div>'+a.map(d=>'<div class="doc-row"><input type="checkbox" class="doc-check" value="'+escapeHtml(d.fileId)+'" onchange="updateSelectedCount()"><span class="doc-name">▤ '+escapeHtml(d.namaFile)+'<small class="doc-meta">'+Math.max(1,Math.round((d.ukuran||0)/1024))+' KB</small></span><span class="doc-actions"><a class="btn ghost" href="'+escapeHtml(d.url)+'" target="_blank" rel="noopener">Lihat</a><button class="btn danger" onclick="removeFile(\''+escapeHtml(d.fileId)+'\')">Hapus</button></span></div>').join('');
   }catch(e){el.className='empty';el.textContent='Gagal memuat dokumen: '+e.message}
+}
+
+
+async function copyIndicatorToSemesterII(){
+ if(semester!==1)return;
+ const source=(docs[1][key(current)]||[]);
+ if(!source.length){notify('Belum ada dokumen','Unggah dokumen pada indikator ini terlebih dahulu.','error');return}
+ const names=source.map(x=>x.namaFile).join(', ');
+ if(!confirm('Salin '+source.length+' dokumen dari indikator '+current+' ke Semester II? File tidak akan digandakan di Google Drive.\\n\\n'+names))return;
+ const btn=document.getElementById('copySemesterBtn');btn.disabled=true;btn.textContent='Menyalin…';
+ try{
+  const r=await apiPost({action:'copyDocumentsToSemesterII',tahun:'2026',nomor:current});
+  if(!r.ok)throw new Error(r.error||'Gagal menyalin referensi dokumen');
+  notify('Berhasil disalin',r.copied+' dokumen tersedia pada indikator '+current+' Semester II'+(r.skipped?' · '+r.skipped+' sudah ada':'')); 
+ }catch(e){notify('Gagal menyalin dokumen',e.message,'error')}
+ finally{btn.disabled=false;btn.textContent='Salin ke Semester II →'}
 }
 
 async function saveAssessment(n,choice){
