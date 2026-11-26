@@ -442,12 +442,31 @@ body{font-size:15px;line-height:1.55;color:#20334b;background:#f5f7fb;letter-spa
 
 </style></head><body><div class="wrap">
 <header class="top"><div class="brand"><div>BinwasLensa<small>UPT PUSKESMAS LENDAH I</small></div></div><span class="pill">PORTAL BINWAS SDMK</span></header>
-<section id="hero" class="hero hero-brand">
-  <div class="hero-brand-mark"><img src="assets/logo-puskesmas.png" alt="Logo UPT Puskesmas Lendah I" onerror="this.style.display='none'"></div>
-  <div class="eyebrow">UPT PUSKESMAS LENDAH I</div>
-  <h1>BINWASLENSA</h1>
-  <div class="hero-subtitle">Pengawasan dan Pembinaan SDM Kesehatan</div>
-  <p>Portal pengumpulan dan monitoring kelengkapan dokumen bukti dukung berdasarkan Instrumen Pembinaan dan Pengawasan SDM Kesehatan Tahun 2026.</p>
+<section id="hero" class="hero hero-editorial">
+  <div class="hero-editorial-copy">
+    <div class="hero-editorial-brand">
+      <span class="hero-editorial-logo"><img src="assets/logo-puskesmas.png" alt="Logo UPT Puskesmas Lendah I" onerror="this.style.display='none'"></span>
+      <span><b>UPT PUSKESMAS LENDAH I</b><small>PORTAL MONITORING INTERNAL</small></span>
+    </div>
+    <div class="eyebrow"><span class="eyebrow-line"></span> SISTEM PEMBINAAN & PENGAWASAN</div>
+    <h1>BINWAS<span>LENSA.</span></h1>
+    <div class="hero-subtitle">Pengawasan dan Pembinaan SDM Kesehatan</div>
+    <p>Kelola kelengkapan dokumen bukti dukung dan pantau proses pembinaan SDM Kesehatan secara terstruktur dalam satu portal.</p>
+    <div class="hero-editorial-foot"><span class="hero-live-dot"></span> PERIODE AKTIF <b>2026</b><span class="hero-foot-divider">/</span> 2 SEMESTER</div>
+  </div>
+  <div class="hero-editorial-visual" aria-label="87 indikator penilaian">
+    <div class="hero-visual-orbit orbit-one"></div><div class="hero-visual-orbit orbit-two"></div>
+    <div class="hero-visual-grid"></div>
+    <div class="hero-number-card">
+      <span class="hero-number-kicker">INSTRUMEN PENILAIAN</span>
+      <strong>87</strong>
+      <span class="hero-number-label">INDIKATOR</span>
+      <span class="hero-number-rule"></span>
+      <span class="hero-number-note">3 BAGIAN UTAMA <i>·</i> 2 SEMESTER</span>
+    </div>
+    <span class="hero-visual-tag tag-top">SDM KESEHATAN</span>
+    <span class="hero-visual-tag tag-bottom">MONITORING 2026 <b>↗</b></span>
+  </div>
 </section>
 <div class="crumb" id="crumb"><span>Beranda</span></div>
 <section id="years" class="panel"><div class="sectionhead"><div><h2>Pilih Tahun Penilaian</h2><div class="sub">Tentukan periode pengumpulan dokumen</div></div></div><div class="yeargrid">
@@ -1007,5 +1026,121 @@ body{background:var(--bg);color:var(--ink)}
 @media(prefers-reduced-motion:reduce){
  html{scroll-behavior:auto}
  *,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+</style>
+
+<style id="binwas-kinetic-editorial-v1">
+/* BINWASLENSA — Kinetic Editorial, motion sedang */
+:root{
+ --bg:#f3f8f5;--ink:#163b2e;--muted:#668176;--line:#dcebe2;
+ --brand-deep:#075d38;--brand-green:#078747;--brand-teal:#009b83;--brand-lime:#a6e900;
+}
+body{background:var(--bg);color:var(--ink)}
+.wrap{max-width:1320px;padding:30px 34px}
+.top{margin-bottom:22px;padding:8px 0 17px}
+.brand{color:#075d38}
+.brand small{color:#668176}
+.top>.pill{background:#e8f7ec;border-color:#cce9d4;color:#087442}
+.hero-editorial{
+ position:relative;isolation:isolate;overflow:hidden;
+ display:grid;grid-template-columns:minmax(0,1.12fr) minmax(300px,.88fr);
+ align-items:center;gap:28px;min-height:390px;
+ padding:38px 42px;border:1px solid #d8e9dd;border-radius:22px;
+ color:#173b2e;background:#fff;
+ box-shadow:0 16px 42px #164b3010;
+}
+.hero-editorial:before{
+ content:"";position:absolute;z-index:-1;inset:0 0 0 auto;width:43%;
+ background:linear-gradient(145deg,#e9f7eb 0%,#dff4e9 48%,#d8f2ed 100%);
+ clip-path:polygon(18% 0,100% 0,100% 100%,0 100%);
+}
+.hero-editorial:after{
+ content:"";position:absolute;z-index:-1;width:380px;height:380px;border:1px solid #07874718;
+ border-radius:50%;right:3%;top:50%;transform:translateY(-50%);
+ box-shadow:0 0 0 26px #07874708,0 0 0 54px #07874705;
+}
+.hero-editorial-copy{position:relative;z-index:2;max-width:650px}
+.hero-editorial-brand{display:flex;align-items:center;gap:11px;margin-bottom:30px}
+.hero-editorial-logo{width:48px;height:48px;display:grid;place-items:center;padding:3px;border-radius:13px;background:#fff;border:1px solid #dcebe2;box-shadow:0 5px 14px #075d3810}
+.hero-editorial-logo img{width:100%;height:100%;object-fit:contain}
+.hero-editorial-brand b{display:block;font-size:10px;letter-spacing:1.1px;color:#075d38}
+.hero-editorial-brand small{display:block;margin-top:4px;font-size:8px;letter-spacing:1.5px;color:#799087}
+.hero-editorial .eyebrow{display:flex;align-items:center;gap:9px;color:#078747;font-size:9px;letter-spacing:1.7px}
+.eyebrow-line{width:27px;height:3px;border-radius:4px;background:var(--brand-lime)}
+.hero-editorial h1{margin:13px 0 8px;font-size:clamp(42px,6.5vw,76px);line-height:.98;letter-spacing:-4px;font-weight:800;color:#123d2b}
+.hero-editorial h1 span{color:#078747}
+.hero-editorial .hero-subtitle{font-size:clamp(13px,1.5vw,17px);font-weight:700;line-height:1.5;color:#315b49}
+.hero-editorial p{max-width:510px;margin:14px 0 0;font-size:12px;line-height:1.9;color:#668176}
+.hero-editorial-foot{display:flex;align-items:center;gap:9px;margin-top:26px;font-size:9px;letter-spacing:1px;color:#6c8979}
+.hero-editorial-foot b{color:#075d38;font-size:11px}
+.hero-live-dot{width:8px;height:8px;border-radius:50%;background:#78c900;box-shadow:0 0 0 4px #a6e90025;animation:kineticPulse 2.4s ease-in-out infinite}
+.hero-foot-divider{color:#b4c8bc}
+.hero-editorial-visual{position:relative;min-height:290px;display:grid;place-items:center}
+.hero-visual-grid{position:absolute;inset:5% 4%;opacity:.36;background-image:linear-gradient(#07874718 1px,transparent 1px),linear-gradient(90deg,#07874718 1px,transparent 1px);background-size:24px 24px;mask-image:radial-gradient(ellipse,black 20%,transparent 72%)}
+.hero-visual-orbit{position:absolute;width:260px;height:260px;border:1px solid #07874725;border-radius:50%}
+.orbit-one{transform:rotate(-24deg) scaleX(1.12);animation:orbitFloat 9s ease-in-out infinite}
+.orbit-two{width:210px;height:210px;border-style:dashed;transform:rotate(28deg) scaleX(1.18);animation:orbitFloat 12s ease-in-out infinite reverse}
+.hero-number-card{position:relative;z-index:2;width:min(270px,78%);min-height:225px;padding:24px 26px;border-radius:18px;background:linear-gradient(145deg,#075d38,#078747 70%,#009b83);color:#fff;box-shadow:0 22px 42px #075d3830;transform:rotate(-3deg);animation:heroCardIn .8s cubic-bezier(.2,.8,.2,1) both}
+.hero-number-kicker,.hero-number-label,.hero-number-note{display:block;font-size:9px;letter-spacing:1.5px}
+.hero-number-kicker{color:#d9f5df}
+.hero-number-card strong{display:block;margin:12px 0 -2px;font-size:clamp(86px,10vw,116px);line-height:.95;letter-spacing:-8px;font-weight:800;color:#fff}
+.hero-number-label{font-weight:700;color:#caff6c}
+.hero-number-rule{display:block;width:42px;height:4px;margin:18px 0 12px;border-radius:4px;background:#a6e900}
+.hero-number-note{font-size:8px;letter-spacing:1px;color:#e4f8ec}
+.hero-number-note i{font-style:normal;color:#a6e900;padding:0 4px}
+.hero-visual-tag{position:absolute;z-index:3;padding:9px 12px;border:1px solid #c8e5d1;border-radius:8px;background:#fff;color:#236247;font-size:8px;font-weight:800;letter-spacing:1px;box-shadow:0 8px 18px #075d3810}
+.tag-top{top:16%;right:0;transform:rotate(4deg);animation:tagFloat 4s ease-in-out infinite}
+.tag-bottom{bottom:12%;left:0;transform:rotate(-4deg);animation:tagFloat 5s ease-in-out infinite reverse}
+.tag-bottom b{color:#078747;margin-left:5px}
+@keyframes heroCardIn{from{opacity:0;transform:translateY(18px) rotate(-6deg) scale(.96)}to{opacity:1;transform:translateY(0) rotate(-3deg) scale(1)}}
+@keyframes orbitFloat{0%,100%{translate:0 0}50%{translate:0 -8px}}
+@keyframes tagFloat{0%,100%{translate:0 0}50%{translate:0 -6px}}
+@keyframes kineticPulse{0%,100%{box-shadow:0 0 0 4px #a6e90025}50%{box-shadow:0 0 0 7px #a6e90012}}
+/* Editorial cards and clear action hierarchy */
+.panel{border:1px solid #dcebe2;border-radius:17px;box-shadow:0 5px 18px #164b3008}
+.sectionhead h2{font-size:19px;letter-spacing:-.5px;color:#164c36}
+.year,.semester{border:1px solid #dcebe2;border-radius:15px;background:#fff;transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease}
+.year:hover,.semester:hover{transform:translateY(-4px);border-color:#8bc99a;box-shadow:0 13px 25px #075d3812}
+.year.active,.semester.active{background:linear-gradient(145deg,#eff9ef,#e4f5e9);border-color:#88c89b;box-shadow:inset 4px 0 #078747}
+.year h3,.semester h3{font-size:32px;letter-spacing:-1px;color:#075d38}
+.semester h3{font-size:18px}
+.year .pill{background:#e5f7e9;color:#087442}
+.btn:not(.ghost):not(.danger),.download-selected{background:#078747;border-radius:9px}
+.btn:not(.ghost):not(.danger):hover,.download-selected:hover{background:#075d38;transform:translateY(-1px)}
+.btn.ghost{background:#e8f5ec;color:#075d38}
+.num{border-radius:12px;background:#e6f5e9;color:#087442}
+.stat{border-radius:13px;border-color:#deece2}
+.stat strong{color:#075d38}
+.progress i{background:linear-gradient(90deg,#078747,#a6e900)}
+.subgroup{border-radius:14px;border-color:#dcebe2}
+.subgroup summary{background:#f7fcf8}
+.subgroup-code{background:#e7f6e9;color:#075d38}
+.indicator{border-radius:13px;border-color:#e0ece4}
+.indicator:hover{border-color:#91cda0;background:#fcfffc}
+@media(max-width:760px){
+ .wrap{padding:17px}
+ .hero-editorial{grid-template-columns:1fr;gap:8px;padding:25px 22px;min-height:0}
+ .hero-editorial:before{inset:auto 0 0 0;width:100%;height:43%;clip-path:polygon(0 12%,100% 0,100% 100%,0 100%)}
+ .hero-editorial:after{width:270px;height:270px;right:50%;top:auto;bottom:-105px;transform:translateX(50%)}
+ .hero-editorial-brand{margin-bottom:24px}
+ .hero-editorial h1{font-size:clamp(43px,12vw,65px);letter-spacing:-2.8px}
+ .hero-editorial-visual{min-height:270px;margin-top:6px}
+ .hero-number-card{width:235px;min-height:205px}
+ .hero-number-card strong{font-size:94px}
+ .tag-top{right:4%}.tag-bottom{left:4%}
+}
+@media(max-width:420px){
+ .hero-editorial{padding:21px 17px}
+ .hero-editorial-brand{margin-bottom:20px}
+ .hero-editorial-brand b{font-size:9px}
+ .hero-editorial-visual{min-height:245px}
+ .hero-number-card{width:215px;min-height:190px;padding:20px}
+ .hero-number-card strong{font-size:86px}
+ .hero-visual-orbit{width:220px;height:220px}
+ .orbit-two{width:180px;height:180px}
+ .hero-visual-tag{font-size:7px;padding:8px 9px}
+}
+@media(prefers-reduced-motion:reduce){
+ .hero-live-dot,.orbit-one,.orbit-two,.hero-number-card,.tag-top,.tag-bottom{animation:none!important}
 }
 </style>
