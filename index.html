@@ -441,8 +441,14 @@ body{font-size:15px;line-height:1.55;color:#20334b;background:#f5f7fb;letter-spa
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
 
 </style></head><body><div class="wrap">
-<header class="top"><div class="brand"><div class="logo" aria-hidden="true"><svg viewBox="0 0 64 64" role="img"><path d="M32 4 55 17v30L32 60 9 47V17Z" fill="none" stroke="currentColor" stroke-width="4"/><path d="M27 15h10v12h12v10H37v12H27V37H15V27h12Z" fill="currentColor"/><path d="M13 12Q4 22 15 34M51 12Q60 22 49 34" fill="none" stroke="#a6e900" stroke-width="3" stroke-linecap="round"/></svg></div><div>BinwasLensa<small>UPT PUSKESMAS LENDAH I</small></div></div><span class="pill">PORTAL BINWAS SDMK</span></header>
-<section id="hero" class="hero"><div class="eyebrow">PENGAWASAN DAN PEMBINAAN</div><h1>Dokumen SDM Kesehatan</h1><p>Portal pengumpulan dan monitoring kelengkapan dokumen bukti dukung berdasarkan Instrumen Pembinaan dan Pengawasan SDM Kesehatan Tahun 2026.</p></section>
+<header class="top"><div class="brand"><div>BinwasLensa<small>UPT PUSKESMAS LENDAH I</small></div></div><span class="pill">PORTAL BINWAS SDMK</span></header>
+<section id="hero" class="hero hero-brand">
+  <div class="hero-brand-mark"><img src="assets/logo-puskesmas.png" alt="Logo UPT Puskesmas Lendah I" onerror="this.style.display='none'"></div>
+  <div class="eyebrow">UPT PUSKESMAS LENDAH I</div>
+  <h1>BINWASLENSA</h1>
+  <div class="hero-subtitle">Pengawasan dan Pembinaan SDM Kesehatan</div>
+  <p>Portal pengumpulan dan monitoring kelengkapan dokumen bukti dukung berdasarkan Instrumen Pembinaan dan Pengawasan SDM Kesehatan Tahun 2026.</p>
+</section>
 <div class="crumb" id="crumb"><span>Beranda</span></div>
 <section id="years" class="panel"><div class="sectionhead"><div><h2>Pilih Tahun Penilaian</h2><div class="sub">Tentukan periode pengumpulan dokumen</div></div></div><div class="yeargrid">
 <button class="year active" onclick="openYear(2026)"><h3>2026</h3><p>Periode aktif · 2 semester</p><span class="pill">BUKA PERIODE</span></button>
@@ -790,7 +796,37 @@ async function removeFile(fileId){
 bindDropZone();
 go('years');
 
-</script></body></html>
+</script></body></html><style id="binwas-concept-b">
+/* Concept B — institutional identity on the landing page */
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{font-size:16px;font-weight:800;letter-spacing:.2px}
+.brand small{font-size:9px;display:block}
+.hero-brand{
+ display:flex;flex-direction:column;align-items:center;text-align:center;
+ padding:34px 28px 38px;min-height:350px;justify-content:center;
+ background:linear-gradient(145deg,#075d54 0%,#078b79 54%,#08a9a1 100%);
+}
+.hero-brand-mark{
+ width:clamp(116px,17vw,172px);height:clamp(116px,17vw,172px);
+ display:flex;align-items:center;justify-content:center;
+ margin:0 auto 17px;padding:7px;border-radius:50%;
+ background:#fff;box-shadow:0 12px 34px #003e3438;
+}
+.hero-brand-mark img{display:block;width:100%;height:100%;object-fit:contain;border-radius:50%}
+.hero-brand .eyebrow{font-size:10px;letter-spacing:2px;color:#d9ff9a}
+.hero-brand h1{font-size:clamp(27px,4vw,40px);line-height:1.15;letter-spacing:1.8px;margin:7px 0 4px;font-weight:800;color:#fff}
+.hero-brand .hero-subtitle{font-size:clamp(12px,1.7vw,16px);font-weight:600;color:#e1fff4;line-height:1.5}
+.hero-brand p{max-width:660px;margin:13px auto 0;font-size:12px;line-height:1.8;color:#e5fff6}
+@media(max-width:600px){
+ .top{padding:8px 0 13px}
+ .brand{font-size:14px}
+ .top>.pill{font-size:8px}
+ .hero-brand{min-height:0;padding:27px 19px 30px}
+ .hero-brand-mark{width:116px;height:116px;margin-bottom:14px}
+ .hero-brand h1{font-size:27px}
+ .hero-brand p{font-size:11px}
+}
+</style>
 <style id="binwas-indicator-layout-fix">
 /* Kartu indikator: pisahkan informasi status dari kontrol penilaian */
 .indicator{
