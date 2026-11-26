@@ -140,6 +140,58 @@ body{background:#f5f7fa;color:#18283b;letter-spacing:-.12px}.wrap{max-width:1240
  .subgroup-code{font-size:10px;padding:7px 8px}
 }
 
+
+/* UX refinement - monitoring dashboard */
+.toolbar{align-items:stretch;margin:18px 0 7px;gap:12px}
+.search-wrap{position:relative;display:flex;align-items:center;flex:1;min-width:220px}
+.search-wrap .search{width:100%;padding:13px 42px 13px 40px;font-size:12px;border-color:#dce5ec;background:#fbfdff}
+.search-wrap .search:focus,.select:focus,.assess-select:focus{outline:3px solid #d8edf8;border-color:#69a9c8}
+.search-icon{position:absolute;left:14px;color:#66869c;font-size:22px;line-height:1;pointer-events:none}
+.clear-search{position:absolute;right:9px;width:28px;height:28px;border:0;border-radius:8px;background:#edf3f7;color:#537187;font-size:20px;cursor:pointer}
+.toolbar .select{min-width:155px;font-size:11px;padding:11px 13px}
+.list-meta{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:0 1px 13px;color:#81909d;font-size:10px}
+.subgroup summary{padding:15px 17px;gap:13px}
+.subgroup-title b{font-size:13px}
+.subgroup-title small{font-size:10px;line-height:1.55}
+.subgroup-progress{display:flex;align-items:center;gap:5px;white-space:nowrap;color:#27775f}
+.subgroup-progress b{font-size:11px;font-weight:700}
+.subgroup-progress small{font-size:9px;color:#718096}
+.subgroup-chevron{font-size:20px;color:#6d8799;transition:transform .18s}
+.subgroup[open] .subgroup-chevron{transform:rotate(180deg)}
+.subgroup summary:after{display:none}
+.group-progress-track{height:3px;background:#edf2f5;margin:0 4px 8px;border-radius:10px;overflow:hidden}
+.group-progress-track i{display:block;height:100%;background:#299779;border-radius:10px}
+.indicator{transition:border-color .15s,background .15s}
+.indicator .status{font-size:10px}
+.indicator .indtext b{font-size:13px;line-height:1.5}
+.indicator .indtext small{font-size:10px}
+.indicator .assess-select{font-size:11px}
+.indicator .btn{font-size:11px}
+.stat span{font-size:10px;line-height:1.5}
+.document-progress{margin-top:18px}
+.detail .field label{font-size:10px;letter-spacing:.35px}
+.detail .field p{font-size:13px;line-height:1.8;color:#344d62}
+.detail .sectionhead{margin-top:20px}
+#fileList .doc-name{font-size:12px;line-height:1.55}
+.empty b{display:block;color:#49677e;margin-bottom:5px}
+@media(max-width:850px){
+ .subgroup-progress{margin-left:auto}
+ .list-meta{font-size:9px}
+}
+@media(max-width:480px){
+ .toolbar{display:grid;grid-template-columns:1fr}
+ .search-wrap{min-width:0}
+ .toolbar .select{width:100%}
+ .list-meta{display:block;line-height:1.7}
+ .subgroup summary{gap:8px;padding:12px}
+ .subgroup-title b{font-size:12px}
+ .subgroup-progress{gap:3px}
+ .subgroup-progress b{font-size:10px}
+ .subgroup-progress small{font-size:8px}
+ .indicator .indtext b{font-size:12px}
+ .detail .field p{font-size:12px}
+}
+
 </style></head><body><div class="wrap">
 <header class="top"><div class="brand"><div class="logo">BL</div><div>BinwasLensa<small>PUSKESMAS LENDAH I</small></div></div><span class="pill">PORTAL BINWAS SDMK</span></header>
 <section class="hero"><div class="eyebrow">PENGAWASAN DAN PEMBINAAN</div><h1>Dokumen SDM Kesehatan</h1><p>Portal pengumpulan dan monitoring kelengkapan dokumen bukti dukung berdasarkan Instrumen Pembinaan dan Pengawasan SDM Kesehatan Tahun 2026.</p></section>
@@ -154,12 +206,12 @@ body{background:#f5f7fa;color:#18283b;letter-spacing:-.12px}.wrap{max-width:1240
 </div></section>
 <section id="modules" class="panel hidden"><div class="sectionhead"><div><h2 id="moduleTitle">Modul Indikator</h2><div class="sub">87 indikator · status dokumen terpisah per semester</div></div><button class="btn ghost" onclick="go('semesters')">← Pilih Semester</button></div>
 <div class="stats"><div class="stat"><strong id="total">87</strong><span>Total indikator</span></div><div class="stat"><strong id="filledCount">0</strong><span>Sudah Diisi</span></div><div class="stat"><strong id="missingCount">87</strong><span>Belum Diisi</span></div><div class="stat"><strong id="notFilledCount">0</strong><span>Tidak Diisi</span></div></div><div class="document-progress"><div><b>Kelengkapan dokumen</b><br><small><span id="filled">0</span> indikator memiliki dokumen · <span id="missing">87</span> belum memiliki dokumen</small></div><b id="docPercent">0%</b></div><div class="progress"><i id="bar"></i></div>
-<div class="toolbar"><input id="search" class="search" placeholder="Cari nomor atau nama indikator..." oninput="renderList()"><select class="select" id="filter" onchange="renderList()"><option value="all">Semua status</option><option value="done">Sudah Diisi</option><option value="empty">Belum Diisi</option><option value="notfilled">Tidak Diisi</option></select></div>
+<div class="toolbar"><div class="search-wrap"><span class="search-icon">⌕</span><input id="search" class="search" placeholder="Cari nomor, nama, atau subbagian indikator..." oninput="renderList()" aria-label="Cari indikator"><button type="button" class="clear-search" onclick="clearIndicatorSearch()" aria-label="Hapus pencarian" title="Hapus pencarian">×</button></div><select class="select" id="filter" onchange="renderList()" aria-label="Filter status"><option value="all">Semua status</option><option value="empty">Belum Diisi</option><option value="done">Sudah Diisi</option><option value="notfilled">Tidak Diisi</option></select></div><div class="list-meta"><span id="visibleCount">Menampilkan 87 dari 87 indikator</span><span>Ketuk kelompok untuk membuka atau menutup daftar</span></div>
 <div class="groups"><div class="group"><b>BAGIAN A · PERENCANAAN SDMK</b><small>Indikator 1–3 · Perencanaan kebutuhan SDM Kesehatan</small></div><div class="group"><b>BAGIAN B · PELAKSANAAN PEMBINAAN DAN PENGAWASAN SDMK</b><small>Indikator 4–78 · Pelaksanaan pembinaan dan pengawasan SDM Kesehatan</small></div><div class="group"><b>BAGIAN C · PENANGANAN PENGADUAN DAN SANKSI ADMINISTRATIF</b><small>Indikator 79–87 · Pengaduan dan tindak lanjut sanksi administratif</small></div></div>
 <div id="list"></div></section>
 <section id="detail" class="panel hidden detail"><div class="sectionhead"><div><h2>Detail Indikator</h2><div class="sub" id="detailSub"></div></div><button class="btn ghost" onclick="go('modules')">← Kembali ke indikator</button></div><h3 id="detailTitle"></h3>
 <div class="field"><label>PERTANYAAN / SOAL</label><p id="question">Memuat pertanyaan dari instrumen...</p></div><div class="field"><label>DEFINISI OPERASIONAL (DO)</label><p id="doText">Memuat definisi operasional...</p></div><div class="field"><label>DATA DUKUNG (DAKUNG)</label><p id="dakungText">Memuat data dukung...</p></div>
-<div class="sectionhead" style="margin-top:18px"><div><h2>Status Pengisian</h2><div class="sub">Status otomatis mengikuti dokumen yang diunggah</div></div></div><div class="field"><label>STATUS MANUAL (JIKA TIDAK AKAN MENGISI)</label><select id="detailAssessment" class="assess-select" style="max-width:220px" onchange="saveAssessment(current,this.value)"><option value="AUTO">Otomatis</option><option value="TIDAK">Tidak Diisi</option></select><div class="sub" style="margin-top:8px">Jika dokumen diunggah, status otomatis menjadi Sudah Diisi.</div></div><div class="sectionhead" style="margin-top:18px"><div><h2>Dokumen Bukti Dukung</h2><div class="sub">Pilih beberapa file sekaligus atau seret file ke area unggah</div></div></div>
+<div class="sectionhead" style="margin-top:18px"><div><h2>Status Pengisian</h2><div class="sub">Status menunjukkan kelengkapan unggahan, bukan hasil verifikasi isi dokumen</div></div></div><div class="field"><label>STATUS MANUAL (JIKA TIDAK AKAN MENGISI)</label><select id="detailAssessment" class="assess-select" style="max-width:220px" onchange="saveAssessment(current,this.value)"><option value="AUTO">Otomatis</option><option value="TIDAK">Tidak Diisi</option></select><div class="sub" style="margin-top:8px">Jika dokumen diunggah, status otomatis menjadi Sudah Diisi.</div></div><div class="sectionhead" style="margin-top:18px"><div><h2>Dokumen Bukti Dukung</h2><div class="sub">Pilih beberapa file sekaligus atau seret file ke area unggah</div></div></div>
 <div id="copySemesterBox" class="field hidden" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
  <div><label>SALIN DOKUMEN KE SEMESTER II</label><p style="font-size:10px;color:#718096">Gunakan dokumen indikator ini di Semester II tanpa mengunggah ulang atau menggandakan file di Google Drive.</p></div>
  <button class="btn" id="copySemesterBtn" onclick="copyIndicatorToSemesterII()">Salin ke Semester II →</button>
@@ -239,7 +291,7 @@ function getSubgroupInfo(n){
  ];
  return groups.find(g=>n>=g[0]&&n<=g[1])||[n,n,'','Kelompok Indikator',''];
 }
-function renderList(){
+function clearIndicatorSearch(){document.getElementById('search').value='';renderList();document.getElementById('search').focus()}\nfunction renderList(){
  const q=document.getElementById('search').value.toLowerCase(),f=document.getElementById('filter').value;
  const filled=indicators.filter(x=>getIndicatorStatus(x.n)==='done').length;
  const notFilled=indicators.filter(x=>getIndicatorStatus(x.n)==='notfilled').length;
@@ -267,8 +319,8 @@ function renderList(){
    const manual=status==='notfilled'?'TIDAK':'AUTO';
    return '<div class="indicator"><div class="num">'+String(x.n).padStart(2,'0')+'</div><div class="indtext"><b>'+escapeHtml(x.name)+'</b><small>Sub Bag '+escapeHtml(x.subBagian||'—')+' · '+count+' dokumen</small></div><span class="status '+cls+'">'+label+'</span><select class="assess-select" aria-label="Status pengisian indikator '+x.n+'" onchange="saveAssessment('+x.n+',this.value)"><option value="AUTO" '+(manual==='AUTO'?'selected':'')+'>Otomatis</option><option value="TIDAK" '+(manual==='TIDAK'?'selected':'')+'>Tidak Diisi</option></select><button class="btn ghost" onclick="openDetail('+x.n+')">Detail</button></div>';
   }).join('');
-  return '<details class="subgroup" '+(q||idx===0?'open':'')+'><summary><span class="subgroup-code">'+escapeHtml(g[2])+'</span><span class="subgroup-title"><b>'+escapeHtml(g[3])+'</b><small>'+escapeHtml(g[4])+'</small></span><span class="subgroup-count">'+items.length+' indikator</span></summary><div class="subgroup-items">'+rows+'</div></details>';
- }).join('')||'<div class="empty">Tidak ada indikator yang cocok.</div>';
+  const complete=items.filter(x=>getIndicatorStatus(x.n)==='done').length;\n  const remaining=items.length-complete;\n  return '<details class="subgroup" '+(q||idx===0?'open':'')+'><summary><span class="subgroup-code">'+escapeHtml(g[2])+'</span><span class="subgroup-title"><b>'+escapeHtml(g[3])+'</b><small>'+escapeHtml(g[4])+'</small></span><span class="subgroup-progress"><b>'+complete+'/'+items.length+'</b><small>lengkap</small></span><span class="subgroup-chevron">⌄</span></summary><div class="subgroup-items"><div class="group-progress-track"><i style="width:'+(items.length?complete/items.length*100:0)+'%"></i></div>'+rows+'</div></details>';
+ }).join('')||'<div class="empty"><b>Indikator tidak ditemukan</b><br>Coba kata kunci lain atau ubah filter status.</div>';\n document.getElementById('visibleCount').textContent='Menampilkan '+arr.length+' dari '+indicators.length+' indikator';
 }
 
 function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
