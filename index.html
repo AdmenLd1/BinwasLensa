@@ -64,13 +64,13 @@ body{background:#f5f7fa;color:#18283b;letter-spacing:-.12px}.wrap{max-width:1240
 <button class="semester" onclick="openSemester(2)"><h3>SEMESTER II</h3><p>Juli – Desember 2026</p><div class="big">87 <small style="font-size:10px;font-weight:500">indikator</small></div></button>
 </div></section>
 <section id="modules" class="panel hidden"><div class="sectionhead"><div><h2 id="moduleTitle">Modul Indikator</h2><div class="sub">87 indikator · status dokumen terpisah per semester</div></div><button class="btn ghost" onclick="go('semesters')">← Pilih Semester</button></div>
-<div class="stats"><div class="stat"><strong id="total">87</strong><span>Total indikator</span></div><div class="stat"><strong id="yesCount">0</strong><span>Jawaban YA</span></div><div class="stat"><strong id="noCount">0</strong><span>Jawaban TIDAK</span></div><div class="stat"><strong id="pendingCount">87</strong><span>Belum dinilai</span></div></div><div class="document-progress"><div><b>Kelengkapan dokumen</b><br><small><span id="filled">0</span> indikator memiliki dokumen · <span id="missing">87</span> belum memiliki dokumen</small></div><b id="docPercent">0%</b></div><div class="progress"><i id="bar"></i></div>
-<div class="toolbar"><input id="search" class="search" placeholder="Cari nomor atau nama indikator..." oninput="renderList()"><select class="select" id="filter" onchange="renderList()"><option value="all">Semua status</option><option value="done">Sudah terisi</option><option value="empty">Belum terisi</option></select></div>
+<div class="stats"><div class="stat"><strong id="total">87</strong><span>Total indikator</span></div><div class="stat"><strong id="filledCount">0</strong><span>Sudah Diisi</span></div><div class="stat"><strong id="missingCount">87</strong><span>Belum Diisi</span></div><div class="stat"><strong id="notFilledCount">0</strong><span>Tidak Diisi</span></div></div><div class="document-progress"><div><b>Kelengkapan dokumen</b><br><small><span id="filled">0</span> indikator memiliki dokumen · <span id="missing">87</span> belum memiliki dokumen</small></div><b id="docPercent">0%</b></div><div class="progress"><i id="bar"></i></div>
+<div class="toolbar"><input id="search" class="search" placeholder="Cari nomor atau nama indikator..." oninput="renderList()"><select class="select" id="filter" onchange="renderList()"><option value="all">Semua status</option><option value="done">Sudah Diisi</option><option value="empty">Belum Diisi</option><option value="notfilled">Tidak Diisi</option></select></div>
 <div class="groups"><div class="group"><b>BAGIAN A · PERENCANAAN SDMK</b><small>Indikator 1–3 · Perencanaan kebutuhan SDM Kesehatan</small></div><div class="group"><b>BAGIAN B · PELAKSANAAN PEMBINAAN DAN PENGAWASAN SDMK</b><small>Indikator 4–78 · Pelaksanaan pembinaan dan pengawasan SDM Kesehatan</small></div><div class="group"><b>BAGIAN C · PENANGANAN PENGADUAN DAN SANKSI ADMINISTRATIF</b><small>Indikator 79–87 · Pengaduan dan tindak lanjut sanksi administratif</small></div></div>
 <div id="list"></div></section>
 <section id="detail" class="panel hidden detail"><div class="sectionhead"><div><h2>Detail Indikator</h2><div class="sub" id="detailSub"></div></div><button class="btn ghost" onclick="go('modules')">← Kembali ke indikator</button></div><h3 id="detailTitle"></h3>
 <div class="field"><label>PERTANYAAN / SOAL</label><p id="question">Memuat pertanyaan dari instrumen...</p></div><div class="field"><label>DEFINISI OPERASIONAL (DO)</label><p id="doText">Memuat definisi operasional...</p></div><div class="field"><label>DATA DUKUNG (DAKUNG)</label><p id="dakungText">Memuat data dukung...</p></div>
-<div class="sectionhead" style="margin-top:18px"><div><h2>Penilaian Indikator</h2><div class="sub">Status penilaian tersimpan terpisah dari dokumen bukti dukung</div></div></div><div class="field"><label>HASIL PENILAIAN</label><select id="detailAssessment" class="assess-select" style="max-width:220px" onchange="saveAssessment(current,this.value)"><option value="BELUM DINILAI">Belum Dinilai</option><option value="YA">YA</option><option value="TIDAK">TIDAK</option></select><div class="sub" style="margin-top:8px">Penilaian disimpan per semester.</div></div><div class="sectionhead" style="margin-top:18px"><div><h2>Dokumen Bukti Dukung</h2><div class="sub">Pilih beberapa file sekaligus atau seret file ke area unggah</div></div></div>
+<div class="sectionhead" style="margin-top:18px"><div><h2>Status Pengisian</h2><div class="sub">Status otomatis mengikuti dokumen yang diunggah</div></div></div><div class="field"><label>STATUS MANUAL (JIKA TIDAK AKAN MENGISI)</label><select id="detailAssessment" class="assess-select" style="max-width:220px" onchange="saveAssessment(current,this.value)"><option value="AUTO">Otomatis</option><option value="TIDAK">Tidak Diisi</option></select><div class="sub" style="margin-top:8px">Jika dokumen diunggah, status otomatis menjadi Sudah Diisi.</div></div><div class="sectionhead" style="margin-top:18px"><div><h2>Dokumen Bukti Dukung</h2><div class="sub">Pilih beberapa file sekaligus atau seret file ke area unggah</div></div></div>
 <div id="dropZone" class="dropzone" role="button" tabindex="0" onclick="document.getElementById('fileInput').click()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();document.getElementById('fileInput').click()}">
 <div class="drop-icon">⇧</div><b>Tarik dan letakkan dokumen di sini</b><small>atau klik untuk memilih beberapa file sekaligus<br>Format: PDF, Word, Excel, JPG, PNG · Maksimal 8 MB per file</small><div id="fileQueue" class="file-queue"></div>
 </div><div id="uploadProgress" class="upload-progress hidden" aria-live="polite"><div class="upload-progress-head"><span>Progres unggahan</span><span id="uploadProgressCount">0/0</span></div><div class="upload-progress-track"><div id="uploadProgressFill" class="upload-progress-fill"></div></div><div class="upload-progress-summary"><span id="uploadProgressSummary">Menunggu unggahan</span><span id="uploadProgressActive">0 sedang diproses</span></div><div id="uploadProgressRows"></div></div><input id="fileInput" type="file" multiple hidden onchange="addFiles(event)"><div class="empty" id="fileList" style="margin-top:14px">Memuat dokumen...</div><div class="sub" style="margin-top:10px">Dokumen disimpan di Google Drive dan tercatat pada database BinwasLensa.</div></section>
@@ -111,16 +111,36 @@ async function loadSemesterData(){
   (ar.data||[]).forEach(a=>{assessments[semester][key(a.nomor)]=a.status});
   if(indicators.length!==87) console.warn('Jumlah indikator yang diterima:',indicators.length);
 }
+function getIndicatorStatus(n){
+ const hasDocs=(docs[semester][key(n)]||[]).length>0;
+ if(hasDocs)return 'done';
+ if(assessments[semester][key(n)]==='TIDAK')return 'notfilled';
+ return 'empty';
+}
 function renderList(){
  const q=document.getElementById('search').value.toLowerCase(),f=document.getElementById('filter').value;
- const countDocs=indicators.filter(x=>(docs[semester][key(x.n)]||[]).length).length;
- const yes=indicators.filter(x=>(assessments[semester][key(x.n)]||'BELUM DINILAI')==='YA').length;
- const no=indicators.filter(x=>(assessments[semester][key(x.n)]||'BELUM DINILAI')==='TIDAK').length;
- const pending=indicators.length-yes-no;
- document.getElementById('total').textContent=indicators.length;document.getElementById('yesCount').textContent=yes;document.getElementById('noCount').textContent=no;document.getElementById('pendingCount').textContent=pending;
- document.getElementById('filled').textContent=countDocs;document.getElementById('missing').textContent=indicators.length-countDocs;document.getElementById('docPercent').textContent=(indicators.length?Math.round(countDocs/indicators.length*100):0)+'%';document.getElementById('bar').style.width=(indicators.length?countDocs/indicators.length*100:0)+'%';
- const arr=indicators.filter(x=>(String(x.n).includes(q)||x.name.toLowerCase().includes(q)||x.subBagian.toLowerCase().includes(q))&&(f==='all'||(f==='done'?((docs[semester][key(x.n)]||[]).length>0):(!(docs[semester][key(x.n)]||[]).length))));
- document.getElementById('list').innerHTML=arr.map(x=>{const count=(docs[semester][key(x.n)]||[]).length,status=assessments[semester][key(x.n)]||'BELUM DINILAI',label=status==='YA'?'YA':status==='TIDAK'?'TIDAK':'Belum dinilai',cls=status==='YA'?'done':status==='TIDAK'?'no':'';return '<div class="indicator"><div class="num">'+String(x.n).padStart(2,'0')+'</div><div class="indtext"><b>'+escapeHtml(x.name)+'</b><small>Bagian '+escapeHtml(x.section)+' · '+count+' dokumen</small></div><span class="status '+cls+'">'+label+'</span><select class="assess-select" aria-label="Penilaian indikator '+x.n+'" onchange="saveAssessment('+x.n+',this.value)"><option value="BELUM DINILAI" '+(status==='BELUM DINILAI'?'selected':'')+'>Belum dinilai</option><option value="YA" '+(status==='YA'?'selected':'')+'>YA</option><option value="TIDAK" '+(status==='TIDAK'?'selected':'')+'>TIDAK</option></select><button class="btn ghost" onclick="openDetail('+x.n+')">Detail</button></div>'}).join('')||'<div class="empty">Tidak ada indikator yang cocok.</div>';
+ const filled=indicators.filter(x=>getIndicatorStatus(x.n)==='done').length;
+ const notFilled=indicators.filter(x=>getIndicatorStatus(x.n)==='notfilled').length;
+ const missing=indicators.length-filled-notFilled;
+ document.getElementById('total').textContent=indicators.length;
+ document.getElementById('filledCount').textContent=filled;
+ document.getElementById('missingCount').textContent=missing;
+ document.getElementById('notFilledCount').textContent=notFilled;
+ document.getElementById('filled').textContent=filled;
+ document.getElementById('missing').textContent=missing+notFilled;
+ document.getElementById('docPercent').textContent=(indicators.length?Math.round(filled/indicators.length*100):0)+'%';
+ document.getElementById('bar').style.width=(indicators.length?filled/indicators.length*100:0)+'%';
+ const arr=indicators.filter(x=>{
+  const st=getIndicatorStatus(x.n);
+  return (String(x.n).includes(q)||x.name.toLowerCase().includes(q)||x.subBagian.toLowerCase().includes(q))&&(f==='all'||f===st);
+ });
+ document.getElementById('list').innerHTML=arr.map(x=>{
+  const count=(docs[semester][key(x.n)]||[]).length,status=getIndicatorStatus(x.n);
+  const label=status==='done'?'Sudah Diisi':status==='notfilled'?'Tidak Diisi':'Belum Diisi';
+  const cls=status==='done'?'done':status==='notfilled'?'no':'';
+  const manual=status==='notfilled'?'TIDAK':'AUTO';
+  return '<div class="indicator"><div class="num">'+String(x.n).padStart(2,'0')+'</div><div class="indtext"><b>'+escapeHtml(x.name)+'</b><small>Bagian '+escapeHtml(x.section)+' · '+count+' dokumen</small></div><span class="status '+cls+'">'+label+'</span><select class="assess-select" aria-label="Status pengisian indikator '+x.n+'" onchange="saveAssessment('+x.n+',this.value)"><option value="AUTO" '+(manual==='AUTO'?'selected':'')+'>Otomatis</option><option value="TIDAK" '+(manual==='TIDAK'?'selected':'')+'>Tidak Diisi</option></select><button class="btn ghost" onclick="openDetail('+x.n+')">Detail</button></div>'
+ }).join('')||'<div class="empty">Tidak ada indikator yang cocok.</div>';
 }
 
 function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
@@ -131,7 +151,7 @@ function openDetail(n){
   document.getElementById('question').textContent=x.soal;
   document.getElementById('doText').textContent=x.doText;
   document.getElementById('dakungText').textContent=x.dakung;
-  document.getElementById('detailAssessment').value=assessments[semester][key(n)]||'BELUM DINILAI';go('detail');renderFiles();
+  document.getElementById('detailAssessment').value=assessments[semester][key(n)]==='TIDAK'?'TIDAK':'AUTO';go('detail');renderFiles();
 }
 async function renderFiles(){
   const el=document.getElementById('fileList');el.className='empty';el.textContent='Memuat dokumen...';
@@ -146,10 +166,22 @@ async function renderFiles(){
   }catch(e){el.className='empty';el.textContent='Gagal memuat dokumen: '+e.message}
 }
 
-async function saveAssessment(n,status){
+async function saveAssessment(n,choice){
  const previous=assessments[semester][key(n)]||'BELUM DINILAI';
- try{const r=await apiPost({action:'saveAssessment',tahun:'2026',semester:'SEMESTER '+(semester===1?'I':'II'),nomor:n,status});if(!r.ok)throw new Error(r.error||'Gagal menyimpan');assessments[semester][key(n)]=status;renderList();if(current===n)document.getElementById('detailAssessment').value=status;notify('Penilaian tersimpan','Indikator '+n+' · '+status)}
- catch(e){assessments[semester][key(n)]=previous;renderList();if(current===n)document.getElementById('detailAssessment').value=previous;notify('Gagal menyimpan penilaian',e.message,'error')}
+ const status=choice==='TIDAK'?'TIDAK':'BELUM DINILAI';
+ try{
+  const r=await apiPost({action:'saveAssessment',tahun:'2026',semester:'SEMESTER '+(semester===1?'I':'II'),nomor:n,status});
+  if(!r.ok)throw new Error(r.error||'Gagal menyimpan status');
+  assessments[semester][key(n)]=status;
+  renderList();
+  if(current===n)document.getElementById('detailAssessment').value=status==='TIDAK'?'TIDAK':'AUTO';
+  notify('Status tersimpan',status==='TIDAK'?'Indikator '+n+' ditandai Tidak Diisi':'Indikator '+n+' kembali ke status otomatis');
+ }catch(e){
+  assessments[semester][key(n)]=previous;
+  renderList();
+  if(current===n)document.getElementById('detailAssessment').value=previous==='TIDAK'?'TIDAK':'AUTO';
+  notify('Gagal menyimpan status',e.message,'error');
+ }
 }
 function toggleAllDocs(checked){document.querySelectorAll('.doc-check').forEach(x=>x.checked=checked);updateSelectedCount()}
 function updateSelectedCount(){const checks=[...document.querySelectorAll('.doc-check')],selected=checks.filter(x=>x.checked),btn=document.getElementById('downloadSelectedBtn');if(btn){btn.disabled=!selected.length;btn.textContent='Unduh file terpilih ('+selected.length+')'}const all=document.getElementById('selectAllDocs');if(all){all.checked=checks.length>0&&selected.length===checks.length;all.indeterminate=selected.length>0&&selected.length<checks.length}}
