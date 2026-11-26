@@ -192,6 +192,56 @@ body{background:#f5f7fa;color:#18283b;letter-spacing:-.12px}.wrap{max-width:1240
  .detail .field p{font-size:12px}
 }
 
+
+/* Navigasi dan motion - transisi lembut, aksesibel */
+html{scroll-behavior:smooth}
+.top{position:relative;z-index:5;padding:10px 0 16px;margin-bottom:18px;border-bottom:1px solid #e7edf2}
+.brand{gap:13px;font-size:16px;letter-spacing:-.35px}
+.logo{width:46px;height:46px;border-radius:14px;transition:transform .25s ease,box-shadow .25s ease}
+.brand:hover .logo{transform:translateY(-2px) rotate(-3deg);box-shadow:0 8px 18px #123e6030}
+.brand small{font-size:9px;letter-spacing:1.5px;margin-top:3px}
+.top>.pill{padding:8px 13px;border:1px solid #dce8ef;background:#f4f8fb;font-size:9px;letter-spacing:.65px}
+.hero{isolation:isolate;box-shadow:0 12px 28px #102f4910;transition:box-shadow .25s ease}
+.hero:before{content:"";position:absolute;z-index:-1;width:190px;height:190px;border-radius:50%;right:13%;bottom:-150px;background:#ffffff0b;filter:blur(2px)}
+.hero:hover{box-shadow:0 16px 34px #102f4918}
+.crumb{display:flex;align-items:center;gap:9px;min-height:42px;margin:17px 0 20px;padding:7px 12px;border:1px solid #e6edf2;border-radius:12px;background:#ffffffd9;color:#71869a;font-size:11px}
+.crumb-link{display:inline-flex;align-items:center;border:0;border-radius:7px;padding:6px 8px;background:transparent;color:#27749a;font:600 11px Poppins;cursor:pointer;transition:background .18s ease,color .18s ease,transform .18s ease}
+.crumb-link:hover{background:#edf5f9;color:#124f75;transform:translateY(-1px)}
+.crumb-current{font-weight:700;color:#24475f}
+.crumb-sep{color:#a8b7c2;font-size:16px}
+.screen-enter{animation:screenEnter .34s cubic-bezier(.2,.75,.25,1) both}
+@keyframes screenEnter{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+.panel{transition:border-color .2s ease,box-shadow .2s ease}
+.year,.semester,.btn,.select,.assess-select,.dropzone,.subgroup{transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease,background-color .2s ease}
+.year:focus-visible,.semester:focus-visible,.btn:focus-visible,.crumb-link:focus-visible,.subgroup summary:focus-visible{outline:3px solid #a8d7ec;outline-offset:3px}
+.year:active,.semester:active,.btn:active{transform:scale(.985)}
+.subgroup{animation:softRise .32s ease both}
+.subgroup:nth-child(2){animation-delay:.025s}.subgroup:nth-child(3){animation-delay:.05s}.subgroup:nth-child(4){animation-delay:.075s}
+@keyframes softRise{from{opacity:.65;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.subgroup summary{transition:background .2s ease}
+.subgroup summary:hover{background:#f1f7fa}
+.indicator{animation:rowAppear .22s ease both}
+@keyframes rowAppear{from{opacity:.6;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+.indicator:hover{transform:translateY(-1px);box-shadow:0 5px 14px #18354c0b}
+.status{transition:background .2s ease,color .2s ease}
+.btn:hover{filter:brightness(1.04);box-shadow:0 4px 10px #176b9e20}
+.dropzone:hover{border-color:#6eabc9;background:#f4fafe}
+.toast{animation:toastIn .25s ease}
+button,select,input{ -webkit-tap-highlight-color:transparent}
+@media(max-width:700px){
+ .top{padding:5px 0 13px}
+ .brand{font-size:14px}
+ .logo{width:42px;height:42px}
+ .top>.pill{font-size:8px;padding:7px 9px}
+ .crumb{gap:5px;padding:6px 8px;font-size:10px;flex-wrap:wrap}
+ .crumb-link{font-size:10px;padding:5px 6px}
+ .hero{box-shadow:none}
+ .subgroup:hover,.indicator:hover{transform:none}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+
 </style></head><body><div class="wrap">
 <header class="top"><div class="brand"><div class="logo">BL</div><div>BinwasLensa<small>PUSKESMAS LENDAH I</small></div></div><span class="pill">PORTAL BINWAS SDMK</span></header>
 <section class="hero"><div class="eyebrow">PENGAWASAN DAN PEMBINAAN</div><h1>Dokumen SDM Kesehatan</h1><p>Portal pengumpulan dan monitoring kelengkapan dokumen bukti dukung berdasarkan Instrumen Pembinaan dan Pengawasan SDM Kesehatan Tahun 2026.</p></section>
@@ -241,8 +291,28 @@ function showLoading(title='Sedang memproses...',text='Mohon tunggu sebentar. Ja
 function hideLoading(){document.getElementById('loadingMask').classList.add('hidden')}
 function notify(title,message,type='success'){const w=document.getElementById('toastWrap'),n=document.createElement('div');n.className='toast '+type;n.innerHTML='<b>'+escapeHtml(title)+'</b>'+escapeHtml(message);w.appendChild(n);setTimeout(()=>n.remove(),4800)}
 function sectionName(s){const v=String(s||'').toUpperCase();if(v.includes('A'))return 'Perencanaan SDMK';if(v.includes('B'))return 'Pelaksanaan Pembinaan dan Pengawasan SDMK';if(v.includes('C'))return 'Penanganan Pengaduan dan Sanksi Administratif';return 'Bagian '+s}
-function go(id){['years','semesters','modules','detail'].forEach(x=>document.getElementById(x).classList.toggle('hidden',x!==id));updateCrumb(id)}
-function updateCrumb(id){let names={years:'Beranda',semesters:'Beranda › Tahun 2026',modules:'Beranda › Tahun 2026 › Semester '+(semester===1?'I':'II'),detail:'Beranda › Tahun 2026 › Semester '+(semester===1?'I':'II')+' › Indikator '+current};document.getElementById('crumb').textContent=names[id]}
+function go(id){
+ ['years','semesters','modules','detail'].forEach(x=>{
+  const el=document.getElementById(x),show=x===id;
+  el.classList.toggle('hidden',!show);
+  if(show){el.classList.remove('screen-enter');void el.offsetWidth;el.classList.add('screen-enter')}
+ });
+ updateCrumb(id);
+ window.scrollTo({top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+}
+function updateCrumb(id){
+ const el=document.getElementById('crumb');
+ const sem='Semester '+(semester===1?'I':'II');
+ const parts=[{label:'Beranda',target:'years'}];
+ if(id!=='years')parts.push({label:'Tahun 2026',target:'semesters'});
+ if(id==='modules'||id==='detail')parts.push({label:sem,target:'modules'});
+ if(id==='detail')parts.push({label:'Indikator '+String(current).padStart(2,'0'),target:null});
+ el.innerHTML=parts.map((p,i)=>{
+  const active=i===parts.length-1;
+  const item=p.target&&!active?'<button type="button" class="crumb-link" onclick="go(\''+p.target+'\')">'+p.label+'</button>':'<span class="crumb-current" aria-current="page">'+p.label+'</span>';
+  return (i?'<span class="crumb-sep" aria-hidden="true">›</span>':'')+item;
+ }).join('');
+}
 function openYear(y){if(y===2026)go('semesters')}
 async function openSemester(s){semester=s;showLoading("Memuat indikator","Mengambil instrumen dan status dokumen...");document.getElementById('moduleTitle').textContent='Indikator · Semester '+(s===1?'I':'II')+' · 2026';go('modules');document.getElementById('list').innerHTML='<div class="empty">Memuat data indikator dan dokumen...</div>';try{await loadSemesterData();renderList()}catch(e){document.getElementById('list').innerHTML='<div class="empty">Gagal memuat data: '+escapeHtml(e.message)+'</div>';notify('Gagal memuat data',e.message,'error')}finally{hideLoading()}}
 function key(n){return 'i'+n}
