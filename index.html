@@ -297,7 +297,7 @@ async function uploadFiles(files) {
 function mimeFromName(name){const e=(name.split('.').pop()||'').toLowerCase();return ({pdf:'application/pdf',doc:'application/msword',docx:'application/vnd.openxmlformats-officedocument.wordprocessingml.document',xls:'application/vnd.ms-excel',xlsx:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',jpg:'image/jpeg',jpeg:'image/jpeg',png:'image/png'})[e]||'application/octet-stream'}
 async function removeFile(fileId){
   if(!confirm('Yakin ingin menghapus dokumen ini dari Google Drive?'))return;showLoading('Menghapus dokumen','Memperbarui Google Drive dan daftar dokumen...');
-  try{const r=await apiPost({action:'delete',fileId});if(!r.ok)throw new Error(r.error||'Hapus gagal');await renderFiles();await loadSemesterData();renderList();notify('Dokumen dihapus','File berhasil dihapus dari Google Drive.')}
+  try{const r=await apiPost({action:'delete',fileId,tahun:'2026',semester:'SEMESTER '+(semester===1?'I':'II'),nomor:current});if(!r.ok)throw new Error(r.error||'Hapus gagal');await renderFiles();await loadSemesterData();renderList();notify('Dokumen dihapus','File berhasil dihapus dari Google Drive.')}
   catch(e){notify('Gagal menghapus dokumen',e.message,'error')}finally{hideLoading()}
 }
 bindDropZone();
