@@ -38,7 +38,7 @@ body{background:#f5f7fa;color:#18283b;letter-spacing:-.12px}.wrap{max-width:1240
 .year,.semester{border-radius:13px}.year:hover,.semester:hover{transform:translateY(-1px);box-shadow:0 7px 18px #18354c10}
 .stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.stat{border-radius:12px;background:#fff;padding:15px 16px}.stat strong{font-size:25px;letter-spacing:-1px;color:#183c56}
 .progress{height:6px;background:#edf1f4}.progress i{background:#2585a6}.indicator{border-radius:12px;padding:14px 15px;gap:12px;box-shadow:0 1px 3px #18354c05}
-.indicator:hover{border-color:#c8d8e2;background:#fcfdfe}.num{border-radius:9px;background:#edf4f8;color:#235d7e}
+.indicator:hover{border-color:#c8d8e2;background:#fcfdfe}.num{width:54px;height:54px;flex:0 0 54px;border-radius:12px;background:#e5f2fa;color:#124f75;display:grid;place-items:center;font-size:18px;font-weight:800;letter-spacing:.2px;box-shadow:inset 0 0 0 1px #d5e7f2}
 .indtext b{font-size:11.5px;font-weight:600;color:#20384d}.status{letter-spacing:.2px}.status.done{background:#e8f5ef;color:#187a59}.status.no{background:#faeded;color:#ad4545}
 .btn{border-radius:8px;font-weight:600;letter-spacing:.1px}.btn:not(.ghost):not(.danger){background:#176b9e}.btn.ghost{background:#edf4f8;color:#245a79}
 .field{border:1px solid #e9eef2;background:#fafcfd;border-radius:11px}.dropzone{border:1px dashed #b8cbd8;border-radius:13px;background:#fafcfd}
@@ -50,7 +50,7 @@ body{background:#f5f7fa;color:#18283b;letter-spacing:-.12px}.wrap{max-width:1240
 .download-selected{background:#176b9e;color:white;border:0;border-radius:8px;padding:9px 12px;font:600 10px Poppins;cursor:pointer}.download-selected:disabled{opacity:.4;cursor:not-allowed}
 .document-progress{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:15px 0 6px;padding:13px 14px;background:#f6fafc;border:1px solid #e7eef2;border-radius:11px}
 .document-progress b{font-size:11px;color:#284b63}.document-progress small{font-size:10px;color:#718096}
-@media(max-width:700px){.wrap{padding:15px}.hero{padding:24px 20px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.indicator{gap:9px}.indicator .assess-select{margin-left:50px;max-width:calc(100% - 50px)}.doc-row{align-items:flex-start}.doc-actions{width:100%;padding-left:25px}}
+@media(max-width:700px){.wrap{padding:15px}.hero{padding:24px 20px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.indicator{gap:10px}.indicator .num{width:50px;height:50px;flex-basis:50px;font-size:17px}.indicator .assess-select{margin-left:60px;max-width:calc(100% - 60px)}.indicator .btn{margin-left:60px}.doc-row{align-items:flex-start}.doc-actions{width:100%;padding-left:25px}}
 
 /* Pengelompokan subjudul indikator sesuai struktur instrumen */
 .subgroup{border:1px solid #e5ebf0;border-radius:13px;background:#fff;margin:12px 0;overflow:hidden}
@@ -59,7 +59,7 @@ body{background:#f5f7fa;color:#18283b;letter-spacing:-.12px}.wrap{max-width:1240
 .subgroup summary:after{content:'＋';margin-left:auto;color:#52758d;font-size:17px;font-weight:500}
 .subgroup[open] summary:after{content:'−'}
 .subgroup-title{min-width:0;flex:1}.subgroup-title b{display:block;font-size:12px;color:#1c4965;line-height:1.5}.subgroup-title small{display:block;color:#7a8b99;font-size:9px;margin-top:3px}
-.subgroup-code{background:#eaf2f7;color:#245a79;border-radius:7px;padding:6px 8px;font-size:9px;font-weight:700;white-space:nowrap}
+.subgroup-code{background:#eaf2f7;color:#245a79;border-radius:8px;padding:8px 10px;font-size:11px;font-weight:800;white-space:nowrap}
 .subgroup-count{font-size:9px;color:#7a8b99;white-space:nowrap}
 .subgroup-items{padding:5px 10px 10px}
 @media(max-width:700px){.subgroup summary{padding:12px;gap:8px}.subgroup-count{display:none}.subgroup-code{font-size:8px}}
