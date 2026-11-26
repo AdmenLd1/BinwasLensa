@@ -260,7 +260,7 @@ button,select,input{ -webkit-tap-highlight-color:transparent}
 <div class="groups"><div class="group"><b>BAGIAN A · PERENCANAAN SDMK</b><small>Indikator 1–3 · Perencanaan kebutuhan SDM Kesehatan</small></div><div class="group"><b>BAGIAN B · PELAKSANAAN PEMBINAAN DAN PENGAWASAN SDMK</b><small>Indikator 4–78 · Pelaksanaan pembinaan dan pengawasan SDM Kesehatan</small></div><div class="group"><b>BAGIAN C · PENANGANAN PENGADUAN DAN SANKSI ADMINISTRATIF</b><small>Indikator 79–87 · Pengaduan dan tindak lanjut sanksi administratif</small></div></div>
 <div id="list"></div></section>
 <section id="detail" class="panel hidden detail"><div class="sectionhead"><div><h2>Detail Indikator</h2><div class="sub" id="detailSub"></div></div><button class="btn ghost" onclick="go('modules')">← Kembali ke indikator</button></div><h3 id="detailTitle"></h3>
-<div class="field"><label>PERTANYAAN / SOAL</label><p id="question">Memuat pertanyaan dari instrumen...</p></div><div class="field"><label>DEFINISI OPERASIONAL (DO)</label><p id="doText">Memuat definisi operasional...</p></div><div class="field"><label>DATA DUKUNG (DAKUNG)</label><p id="dakungText">Memuat data dukung...</p></div>
+<div class="field"><label>PERTANYAAN / SOAL</label><p id="question">Memuat pertanyaan dari instrumen...</p></div><div class="field"><label>DEFINISI OPERASIONAL (DO)</label><p id="doText">Memuat definisi operasional...</p></div><div class="field"><label>DATA DUKUNG (DAKUNG)</label><p id="dakungText">Memuat data dukung...</p></div><div class="field" id="folderLinkBox"><label>FOLDER GOOGLE DRIVE</label><div id="folderLinkContent" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap"><p id="folderLinkStatus" style="font-size:11px;color:#718096;margin:0">Memeriksa folder...</p><div id="folderLinkActions" style="display:flex;gap:8px;flex-wrap:wrap"></div></div></div>
 <div class="sectionhead" style="margin-top:18px"><div><h2>Status Pengisian</h2><div class="sub">Status menunjukkan kelengkapan unggahan, bukan hasil verifikasi isi dokumen</div></div></div><div class="field"><label>STATUS MANUAL (JIKA TIDAK AKAN MENGISI)</label><select id="detailAssessment" class="assess-select" style="max-width:220px" onchange="saveAssessment(current,this.value)"><option value="AUTO">Otomatis</option><option value="TIDAK">Tidak Diisi</option></select><div class="sub" style="margin-top:8px">Jika dokumen diunggah, status otomatis menjadi Sudah Diisi.</div></div><div class="sectionhead" style="margin-top:18px"><div><h2>Dokumen Bukti Dukung</h2><div class="sub">Pilih beberapa file sekaligus atau seret file ke area unggah</div></div></div>
 <div id="copySemesterBox" class="field hidden" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
  <div><label>SALIN DOKUMEN KE SEMESTER II</label><p style="font-size:10px;color:#718096">Gunakan dokumen indikator ini di Semester II tanpa mengunggah ulang atau menggandakan file di Google Drive.</p></div>
@@ -405,8 +405,45 @@ function openDetail(n){
   document.getElementById('question').textContent=x.soal;
   document.getElementById('doText').textContent=x.doText;
   document.getElementById('dakungText').textContent=x.dakung;
-  document.getElementById('detailAssessment').value=assessments[semester][key(n)]==='TIDAK'?'TIDAK':'AUTO';document.getElementById('copySemesterBox').classList.toggle('hidden',semester!==1);go('detail');renderFiles();
+  document.getElementById('detailAssessment').value=assessments[semester][key(n)]==='TIDAK'?'TIDAK':'AUTO';document.getElementById('copySemesterBox').classList.toggle('hidden',semester!==1);window.currentIndicatorFolderUrl='';go('detail');renderFolderLink();renderFiles();
 }
+
+async function renderFolderLink(){
+  const status=document.getElementById('folderLinkStatus');
+  const actions=document.getElementById('folderLinkActions');
+  if(!status||!actions)return;
+  status.textContent='Memeriksa folder Google Drive...';
+  actions.innerHTML='';
+  try{
+    const r=await apiGet('folder',{tahun:2026,semester:'SEMESTER '+(semester===1?'I':'II'),nomor:current});
+    if(!r.ok)throw new Error(r.error||'Gagal memeriksa folder');
+    if(!r.exists){
+      status.textContent='Folder belum tersedia. Folder akan dibuat otomatis saat dokumen pertama diunggah.';
+      return;
+    }
+    status.textContent=r.folderName+' · Folder tersedia';
+    actions.innerHTML='<button class="btn ghost" type="button" onclick="copyIndicatorFolderLink()">Salin Link Folder</button><a class="btn ghost" href="'+escapeHtml(r.folderUrl)+'" target="_blank" rel="noopener">Buka Folder</a>';
+    window.currentIndicatorFolderUrl=r.folderUrl;
+  }catch(e){
+    status.textContent='Link folder belum dapat dimuat: '+e.message;
+  }
+}
+async function copyIndicatorFolderLink(){
+  const url=window.currentIndicatorFolderUrl;
+  if(!url){notify('Link belum tersedia','Folder Google Drive belum ditemukan.','error');return}
+  try{
+    await navigator.clipboard.writeText(url);
+    notify('Link berhasil disalin','Tautan folder Google Drive sudah disalin.');
+  }catch(e){
+    const temp=document.createElement('textarea');
+    temp.value=url;temp.style.position='fixed';temp.style.opacity='0';
+    document.body.appendChild(temp);temp.select();
+    const ok=document.execCommand('copy');temp.remove();
+    if(ok)notify('Link berhasil disalin','Tautan folder Google Drive sudah disalin.');
+    else notify('Gagal menyalin link','Silakan buka folder lalu salin alamat dari browser.','error');
+  }
+}
+
 async function renderFiles(){
   const el=document.getElementById('fileList');el.className='empty';el.textContent='Memuat dokumen...';
   try{
