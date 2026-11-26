@@ -242,6 +242,103 @@ button,select,input{ -webkit-tap-highlight-color:transparent}
  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
 
+
+/* =========================================================
+   BINWASLENSA — MODERN PLAYFUL VISUAL REFINEMENT
+   CSS-only layer: tidak mengubah markup, JavaScript, API,
+   struktur data, maupun alur backend.
+   ========================================================= */
+:root{
+ --play-blue:#3478f6;--play-cyan:#25c6d7;--play-teal:#20b99a;
+ --play-lime:#b7e65a;--play-purple:#8b78ed;--play-coral:#ff987d;
+ --play-ink:#20334b;--play-muted:#71839a;--play-bg:#f4f8ff;
+ --play-line:#e5edf7;--play-shadow:0 12px 32px rgba(48,91,148,.09)
+}
+html{scroll-behavior:smooth}
+body{background:
+ radial-gradient(ellipse at 5% 0%,rgba(91,173,255,.10),transparent 28rem),
+ radial-gradient(ellipse at 95% 12%,rgba(64,220,194,.10),transparent 25rem),
+ var(--play-bg);color:var(--play-ink)}
+.wrap{max-width:1280px;padding:26px 30px}
+.top{border:0;margin-bottom:20px;padding:8px 0 12px}
+.logo{background:linear-gradient(140deg,var(--play-cyan),var(--play-blue) 58%,var(--play-purple));color:#fff;border-radius:16px;box-shadow:0 8px 18px rgba(52,120,246,.22)}
+.brand{color:#243c59}
+.brand small{color:#8294aa}
+.top>.pill{background:#e9f8f4;border:1px solid #d4f0e7;color:#16866f;border-radius:999px}
+.hero{border-radius:26px;padding:36px 38px;background:linear-gradient(118deg,#2868e8 0%,#278fd8 48%,#24b9bd 100%);box-shadow:0 18px 36px rgba(41,119,211,.20);position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;width:210px;height:210px;right:16%;bottom:-145px;border-radius:50%;background:rgba(194,244,110,.24);box-shadow:0 0 0 28px rgba(255,255,255,.08),0 0 0 58px rgba(255,255,255,.055);pointer-events:none}
+.hero:after{content:"";position:absolute;width:180px;height:180px;right:-54px;top:-90px;border-radius:48px;transform:rotate(32deg);background:rgba(255,255,255,.10);box-shadow:0 0 0 22px rgba(255,255,255,.055);pointer-events:none}
+.hero>*{position:relative;z-index:1}
+.eyebrow{color:#d8fff4;letter-spacing:2.1px}
+.hero h1{font-size:clamp(25px,4vw,38px);font-weight:800;letter-spacing:-1.2px}
+.hero p{color:#effaff;font-size:12px;max-width:720px}
+.crumb{color:#8395aa;margin:20px 2px}
+.crumb button{color:#3478d9;font-weight:600}
+.panel{border:1px solid var(--play-line);border-radius:20px;background:rgba(255,255,255,.94);box-shadow:var(--play-shadow);padding:23px}
+.sectionhead h2{color:#253d5b;font-weight:700;letter-spacing:-.45px}
+.sub{color:var(--play-muted)}
+.year,.semester{border:1px solid var(--play-line);border-radius:19px;background:linear-gradient(145deg,#fff,#f9fbff);box-shadow:0 5px 16px rgba(43,82,133,.045)}
+.year:hover,.semester:hover{transform:translateY(-3px);border-color:#9bc8ff;box-shadow:0 14px 25px rgba(52,120,246,.12)}
+.year.active,.semester.active{background:linear-gradient(135deg,#eaf3ff,#e9fbf8);border:1px solid #a8d6ed;box-shadow:inset 0 0 0 1px rgba(52,120,246,.05)}
+.year h3,.semester h3{color:#3478d9}
+.soon{background:#f0efff;color:#7564d8}
+.toolbar .search,.toolbar .select,.search-wrap .search{border-radius:13px;border-color:#e0e9f4;background:#fff;box-shadow:0 2px 7px rgba(42,76,120,.035)}
+.search-wrap .search:focus,.select:focus,.assess-select:focus{outline:3px solid rgba(52,120,246,.13);border-color:#82b4ff}
+.stats{gap:13px}
+.stat{position:relative;overflow:hidden;border:1px solid var(--play-line);border-radius:17px;background:linear-gradient(145deg,#fff,#fbfdff);padding:16px 17px;box-shadow:0 5px 15px rgba(48,91,148,.045)}
+.stat:after{content:"";position:absolute;width:62px;height:62px;right:-24px;top:-25px;border-radius:20px;transform:rotate(28deg);background:rgba(75,151,245,.08)}
+.stat strong{position:relative;z-index:1;color:#2c5fa8;font-size:27px}
+.stat span{position:relative;z-index:1;color:#7b8da5}
+.progress{height:9px;border-radius:20px;background:#edf2fa}
+.progress i{border-radius:20px;background:linear-gradient(90deg,var(--play-blue),var(--play-cyan),var(--play-teal))}
+.groups{gap:13px}
+.group{border:1px solid var(--play-line);border-left:4px solid var(--play-cyan);border-radius:16px;background:#fff;box-shadow:0 4px 13px rgba(48,91,148,.04)}
+.group:nth-child(2){border-left-color:var(--play-purple)}
+.group:nth-child(3){border-left-color:var(--play-lime)}
+.subgroup{border:1px solid #e5edf7;border-radius:17px;box-shadow:0 4px 13px rgba(48,91,148,.035);margin:13px 0;transition:box-shadow .2s,border-color .2s}
+.subgroup[open]{border-color:#c8dcf4;box-shadow:0 8px 20px rgba(48,91,148,.07)}
+.subgroup summary{background:linear-gradient(100deg,#f5f9ff,#f6fffd);padding:16px 18px}
+.subgroup-code{border-radius:10px;background:#e7f1ff;color:#3474d0}
+.subgroup:nth-of-type(3n+2) .subgroup-code{background:#f0edff;color:#7865d8}
+.subgroup:nth-of-type(3n) .subgroup-code{background:#e6f8f1;color:#19866e}
+.subgroup-title b{color:#294666}
+.subgroup-progress{color:#178b72}
+.group-progress-track{height:5px;background:#edf3f8}
+.group-progress-track i{background:linear-gradient(90deg,var(--play-teal),#9bdc72)}
+.indicator{border:1px solid #e8eef6;border-radius:15px;background:#fff;box-shadow:0 2px 8px rgba(42,76,120,.025);padding:14px 15px;gap:12px}
+.indicator:hover{border-color:#b9d5fb;background:#fbfdff;box-shadow:0 7px 17px rgba(52,120,246,.07);transform:translateY(-1px)}
+.indicator .num{border-radius:13px;background:linear-gradient(145deg,#e8f2ff,#e8fbfa);color:#3478c9;box-shadow:none;font-size:15px}
+.indicator .status{border-radius:999px;background:#fff5df;color:#a8741a;padding:7px 10px}
+.indicator .status.done{background:#e4f8ef;color:#168568}
+.indicator .status.no{background:#fff0ed;color:#cf6857}
+.indicator .assess-select{border-radius:10px;border-color:#e0e9f3;background:#fbfdff}
+.btn,.download-selected{border-radius:11px;transition:transform .16s,box-shadow .16s,filter .16s}
+.btn:not(.ghost):not(.danger),.download-selected{background:linear-gradient(110deg,var(--play-blue),#398edb 58%,var(--play-cyan));box-shadow:0 5px 12px rgba(52,120,246,.16)}
+.btn:hover,.download-selected:hover:not(:disabled){transform:translateY(-1px);filter:saturate(1.08);box-shadow:0 8px 16px rgba(52,120,246,.18)}
+.btn.ghost{background:#edf5ff;color:#3474c9;border:1px solid #e0edff}
+.btn.danger{background:#fff0ed;color:#c85d50;border:1px solid #ffe0da}
+.detail{margin-top:16px}
+.detail h3{color:#294666}
+.field{border:1px solid #e7eef7;border-radius:15px;background:linear-gradient(145deg,#fbfdff,#f8fbff);padding:16px}
+.field label{color:#62809d}
+.field p{color:#354e68}
+.dropzone{border:2px dashed #a9c9ed;border-radius:18px;background:linear-gradient(135deg,#f3f8ff,#effdfa);padding:30px 18px}
+.dropzone.dragover{border-color:var(--play-blue);background:#eaf4ff;box-shadow:0 0 0 4px rgba(52,120,246,.10)}
+.dropzone .drop-icon{border-radius:17px;background:linear-gradient(145deg,#e4f0ff,#e2fbf5);color:#3478d9}
+.dropzone b{color:#2e659f}
+.upload-progress,.document-progress{border:1px solid #e4edf7;border-radius:15px;background:#fbfdff}
+.upload-progress-fill{background:linear-gradient(90deg,var(--play-blue),var(--play-cyan),var(--play-teal))}
+.doc-row{border-color:#edf2f8}
+.doc-name{color:#31516f}
+.doc-row .btn.ghost{background:#edf5ff}
+.empty{border-color:#c7d8ea;background:#fbfdff;border-radius:16px;color:#8092a8}
+.toast{border-radius:15px;box-shadow:0 14px 34px rgba(30,60,100,.15)}
+.loading-card{border-radius:22px}
+.footer{color:#91a1b6}
+@media(max-width:850px){.wrap{padding:18px}.hero{padding:29px 26px}.panel{padding:18px}}
+@media(max-width:480px){.wrap{padding:12px}.hero{border-radius:21px;padding:24px 19px}.hero h1{font-size:25px}.panel{border-radius:17px;padding:15px}.stats{gap:9px}.stat{border-radius:14px;padding:12px}.stat strong{font-size:23px}.subgroup{border-radius:14px}.indicator{border-radius:13px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
 </style></head><body><div class="wrap">
 <header class="top"><div class="brand"><div class="logo">BL</div><div>BinwasLensa<small>PUSKESMAS LENDAH I</small></div></div><span class="pill">PORTAL BINWAS SDMK</span></header>
 <section class="hero"><div class="eyebrow">PENGAWASAN DAN PEMBINAAN</div><h1>Dokumen SDM Kesehatan</h1><p>Portal pengumpulan dan monitoring kelengkapan dokumen bukti dukung berdasarkan Instrumen Pembinaan dan Pengawasan SDM Kesehatan Tahun 2026.</p></section>
