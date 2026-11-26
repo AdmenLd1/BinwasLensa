@@ -339,9 +339,110 @@ body{background:
 @media(max-width:480px){.wrap{padding:12px}.hero{border-radius:21px;padding:24px 19px}.hero h1{font-size:25px}.panel{border-radius:17px;padding:15px}.stats{gap:9px}.stat{border-radius:14px;padding:12px}.stat strong{font-size:23px}.subgroup{border-radius:14px}.indicator{border-radius:13px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 
+/* BINWASLENSA READABILITY & WORKSPACE REFINEMENT */
+:root{--play-ink:#20334b;--play-muted:#5e7188;--play-line:#dce5ef;--play-blue:#2563c7;--play-cyan:#168fa5;--play-teal:#17866f}
+body{font-size:15px;line-height:1.55;color:#20334b;background:#f5f7fb;letter-spacing:0}
+.wrap{max-width:1240px;padding:24px 30px}
+.top{margin-bottom:18px;padding:4px 0 14px;border-bottom:1px solid #e1e8f0}
+.brand{font-size:17px;gap:12px}.brand small{font-size:11px;letter-spacing:1px}
+.top>.pill{font-size:11px;padding:8px 13px}
+.hero{margin:4px 0 22px;padding:30px 34px;border-radius:18px;background:linear-gradient(112deg,#245bb4,#267eb5 65%,#208d91);box-shadow:0 9px 22px rgba(31,82,145,.12)}
+.hero:before,.hero:after{opacity:.25}
+.hero .eyebrow{font-size:12px;letter-spacing:1.5px}
+.hero h1{font-size:clamp(27px,3vw,36px);line-height:1.2;letter-spacing:-.7px;margin:10px 0}
+.hero p{font-size:15px;line-height:1.7;max-width:760px}
+.crumb{min-height:44px;margin:14px 0 18px;padding:8px 12px;font-size:13px;border-radius:10px}
+.crumb-link,.crumb-current{font-size:13px}
+.panel{padding:25px;border-radius:17px;box-shadow:0 3px 12px rgba(34,61,94,.045)}
+.sectionhead{align-items:center;margin-bottom:19px}
+.sectionhead h2{font-size:21px;line-height:1.3;letter-spacing:-.35px}
+.sub{font-size:13px;line-height:1.55;color:#667991}
+.year,.semester{padding:25px;border-radius:15px}
+.year h3{font-size:34px}.year p,.semester p{font-size:14px;line-height:1.5}
+.year .pill,.soon{font-size:11px}.semester h3{font-size:20px}.semester .big{font-size:34px}.semester .big small{font-size:13px!important}
+.btn,.download-selected{min-height:42px;padding:10px 16px;font:600 13px Poppins,Arial,sans-serif;border-radius:9px;line-height:1.25;white-space:normal}
+.btn.ghost{border:1px solid #cbdced;background:#edf4fc;color:#205b9d}
+.btn.danger{border:1px solid #f1d2ce;background:#fff0ed;color:#b94e43}
+.stats{gap:14px;margin:19px 0}.stat{padding:18px 19px;border-radius:13px}
+.stat strong{font-size:30px;line-height:1.2}.stat span{display:block;margin-top:5px;font-size:13px;line-height:1.4}
+.document-progress{padding:16px 18px;border-radius:12px}.document-progress b{font-size:14px;line-height:1.45}.document-progress small{font-size:12px;line-height:1.55}
+.progress{height:9px;margin:10px 0 18px}
+.toolbar{gap:12px;margin:18px 0 10px}.search-wrap .search{min-height:48px;padding:12px 42px;font:400 14px Poppins,Arial,sans-serif}
+.search-icon{font-size:23px}.clear-search{width:32px;height:32px;font-size:22px}
+.toolbar .select,.select{min-height:48px;padding:10px 14px;font:500 13px Poppins,Arial,sans-serif}
+.list-meta{font-size:12px;line-height:1.5;margin-bottom:14px;color:#667991}
+.groups{gap:12px;margin-bottom:18px}.group{padding:16px;border-radius:12px;min-width:0}
+.group b{font-size:13px;line-height:1.5}.group small{font-size:12px;line-height:1.55}
+.subgroup{margin:14px 0;border-radius:13px}.subgroup summary{padding:17px 18px;gap:13px}
+.subgroup-code{font-size:12px;padding:9px 11px}.subgroup-title b{font-size:15px;line-height:1.4}.subgroup-title small{font-size:12px;line-height:1.5}
+.subgroup-progress{gap:6px}.subgroup-progress b{font-size:13px}.subgroup-progress small{font-size:11px}.subgroup-chevron{font-size:22px}
+.subgroup-items{padding:8px 12px 13px}.group-progress-track{margin:0 3px 10px;height:5px}
+.indicator{display:grid;grid-template-columns:52px minmax(0,1fr) auto;grid-template-rows:auto auto;align-items:center;gap:9px 14px;padding:15px 16px;margin:10px 0;border-radius:12px}
+.indicator .num{grid-column:1;grid-row:1 / span 2;width:46px;height:46px;font-size:15px}
+.indicator .indtext{grid-column:2;grid-row:1 / span 2;min-width:0;align-self:center}
+.indicator .indtext b{font-size:14px;line-height:1.5;overflow-wrap:anywhere;word-break:normal}
+.indicator .indtext small{font-size:12px;line-height:1.5;margin-top:5px}
+.indicator .status{grid-column:3;grid-row:1;justify-self:end;font-size:11px;padding:7px 10px;margin:0}
+.indicator .assess-select{grid-column:3;grid-row:2;width:142px;max-width:142px;min-height:38px;font:500 12px Poppins,Arial,sans-serif;padding:7px 9px}
+.indicator .btn{grid-column:3;grid-row:1;justify-self:end;min-height:38px;padding:8px 13px;font-size:12px}
+.detail{margin-top:0}.detail h3{font-size:20px;line-height:1.4;margin:8px 0 16px;overflow-wrap:anywhere}
+.detail .field{padding:18px 19px;margin:13px 0;border-radius:12px}
+.detail .field label{font-size:12px;letter-spacing:.45px;line-height:1.4;margin-bottom:9px}
+.detail .field p{font-size:15px;line-height:1.8;color:#30465f;overflow-wrap:anywhere;word-break:normal}
+#folderLinkStatus{font-size:13px!important;line-height:1.6}#folderLinkActions .btn{font-size:12px}
+#detailAssessment{min-height:42px;padding:9px 12px;font:500 13px Poppins,Arial,sans-serif}
+.detail .sectionhead h2{font-size:19px}.detail .sectionhead .sub{font-size:12px}
+.dropzone{padding:30px 20px;border-radius:13px}.dropzone .drop-icon{width:50px;height:50px;font-size:25px}
+.dropzone b{font-size:15px;line-height:1.5}.dropzone small{font-size:13px;line-height:1.7}
+.file-queue{font-size:12px;line-height:1.7}.upload-progress{padding:17px;border-radius:12px}
+.upload-progress-head{font-size:13px}.upload-progress-summary{font-size:12px;line-height:1.5}.upload-file-row{font-size:12px;line-height:1.5}
+.doc-toolbar{gap:12px}.doc-count{font-size:12px}.doc-row{gap:12px;padding:13px 8px}
+.doc-name{font-size:13px;line-height:1.5}.doc-meta{font-size:11px}.doc-actions{gap:8px}.doc-actions .btn{min-height:38px;font-size:12px}
+.empty{padding:26px 18px;font-size:13px;line-height:1.6}.empty b{font-size:14px}
+.toast{font-size:13px;line-height:1.55}.toast b{font-size:14px}
+.loading-card b{font-size:16px}.loading-card small{font-size:13px}.footer{font-size:11px}
+@media(max-width:850px){
+ .wrap{padding:18px}.panel{padding:19px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .indicator{grid-template-columns:48px minmax(0,1fr) auto;gap:8px 11px}
+ .indicator .num{width:43px;height:43px}
+ .indicator .indtext{grid-column:2;grid-row:1 / span 2}
+ .indicator .status{grid-column:3;grid-row:1}
+ .indicator .btn{grid-column:3;grid-row:2}
+ .indicator .assess-select{grid-column:3;grid-row:3;width:142px;max-width:142px}
+}
+@media(max-width:600px){
+ .wrap{padding:12px}.top{align-items:center;gap:10px}.brand{font-size:15px}.brand small{font-size:10px}
+ .top>.pill{font-size:9px;padding:7px 9px}.hero{padding:23px 20px;margin-bottom:16px}.hero h1{font-size:26px}.hero p{font-size:14px}
+ .panel{padding:15px;border-radius:13px}.sectionhead{align-items:flex-start;gap:12px}.sectionhead h2{font-size:19px}
+ .sectionhead .btn{flex-shrink:0}.year,.semester{padding:19px}
+ .stats{gap:9px}.stat{padding:13px;border-radius:11px}.stat strong{font-size:26px}.stat span{font-size:12px}
+ .document-progress{padding:13px}.document-progress b{font-size:13px}.document-progress small{font-size:11px}
+ .groups{grid-template-columns:1fr}.group{padding:13px}.group b{font-size:13px}.group small{font-size:12px}
+ .subgroup summary{padding:13px 12px;gap:8px}.subgroup-code{font-size:11px;padding:8px}
+ .subgroup-title b{font-size:13px}.subgroup-title small{font-size:11px}.subgroup-progress b{font-size:11px}.subgroup-progress small{font-size:10px}
+ .indicator{grid-template-columns:40px minmax(0,1fr);grid-template-rows:auto auto auto;gap:8px 10px;padding:12px}
+ .indicator .num{grid-column:1;grid-row:1 / span 3;width:38px;height:38px;font-size:13px}
+ .indicator .indtext{grid-column:2;grid-row:1;align-self:start}
+ .indicator .indtext b{font-size:13px;line-height:1.5}.indicator .indtext small{font-size:11px}
+ .indicator .status{grid-column:2;grid-row:2;justify-self:start;font-size:10px}
+ .indicator .assess-select{grid-column:2;grid-row:3;width:145px;max-width:100%;min-height:39px}
+ .indicator .btn{grid-column:2;grid-row:4;justify-self:start;min-height:39px}
+ .detail .field{padding:15px}.detail .field p{font-size:14px;line-height:1.75}.detail .field label{font-size:11px}
+ .detail .sectionhead{flex-direction:row}.detail .sectionhead h2{font-size:17px}.detail .sectionhead .sub{font-size:11px}
+ .dropzone{padding:23px 14px}.dropzone b{font-size:14px}.dropzone small{font-size:12px}
+ .doc-row{align-items:flex-start}.doc-name{font-size:12px;min-width:0}.doc-actions{width:100%;padding-left:26px}.doc-actions .btn{flex:1}
+ .toolbar{display:grid;grid-template-columns:1fr}.search-wrap{min-width:0}.toolbar .select{width:100%}
+ .list-meta{display:block;font-size:11px;line-height:1.6}
+}
+@media(max-width:380px){
+ .top>.pill{max-width:112px;text-align:center;line-height:1.3}.subgroup summary{gap:6px}.subgroup-progress{display:none}
+ .indicator .indtext b{font-size:12px}.detail .sectionhead{flex-wrap:wrap}.detail .sectionhead>.btn{width:100%}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+
 </style></head><body><div class="wrap">
 <header class="top"><div class="brand"><div class="logo">BL</div><div>BinwasLensa<small>PUSKESMAS LENDAH I</small></div></div><span class="pill">PORTAL BINWAS SDMK</span></header>
-<section class="hero"><div class="eyebrow">PENGAWASAN DAN PEMBINAAN</div><h1>Dokumen SDM Kesehatan</h1><p>Portal pengumpulan dan monitoring kelengkapan dokumen bukti dukung berdasarkan Instrumen Pembinaan dan Pengawasan SDM Kesehatan Tahun 2026.</p></section>
+<section id="hero" class="hero"><div class="eyebrow">PENGAWASAN DAN PEMBINAAN</div><h1>Dokumen SDM Kesehatan</h1><p>Portal pengumpulan dan monitoring kelengkapan dokumen bukti dukung berdasarkan Instrumen Pembinaan dan Pengawasan SDM Kesehatan Tahun 2026.</p></section>
 <div class="crumb" id="crumb"><span>Beranda</span></div>
 <section id="years" class="panel"><div class="sectionhead"><div><h2>Pilih Tahun Penilaian</h2><div class="sub">Tentukan periode pengumpulan dokumen</div></div></div><div class="yeargrid">
 <button class="year active" onclick="openYear(2026)"><h3>2026</h3><p>Periode aktif · 2 semester</p><span class="pill">BUKA PERIODE</span></button>
@@ -395,6 +496,8 @@ function go(id){
   if(show){el.classList.remove('screen-enter');void el.offsetWidth;el.classList.add('screen-enter')}
  });
  updateCrumb(id);
+ const hero=document.getElementById('hero');
+ if(hero)hero.classList.toggle('hidden',id!=='years');
  window.scrollTo({top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
 }
 function updateCrumb(id){
