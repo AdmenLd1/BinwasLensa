@@ -1192,3 +1192,20 @@ body{background:var(--bg);color:var(--ink)}
 #copySemesterBtn:disabled{opacity:.68;cursor:not-allowed;filter:saturate(.65);transform:none}
 @media(max-width:600px){.indicator .indtext .copy-state{font-size:10px}}
 </style>
+
+
+<style id="binwas-soft-aurora-background">
+/* Aurora hijau-lime lembut: latar hidup, tetapi tetap nyaman dibaca */
+body{
+  background-color:#f3f8f5;
+  background-image:
+    radial-gradient(ellipse 58% 42% at 8% 9%, rgba(166,233,0,.17) 0%, rgba(166,233,0,.075) 38%, transparent 76%),
+    radial-gradient(ellipse 52% 44% at 91% 20%, rgba(0,155,131,.13) 0%, rgba(0,155,131,.055) 42%, transparent 78%),
+    radial-gradient(ellipse 62% 42% at 52% 96%, rgba(190,224,91,.13) 0%, rgba(190,224,91,.045) 44%, transparent 78%),
+    linear-gradient(135deg,#f7faf5 0%,#f1f8f4 48%,#f6f9ef 100%);
+  background-attachment:fixed;
+}
+@media(max-width:760px){
+  body{background-attachment:scroll}
+}
+</style>
