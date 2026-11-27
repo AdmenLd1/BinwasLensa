@@ -1195,17 +1195,22 @@ body{background:var(--bg);color:var(--ink)}
 
 
 <style id="binwas-soft-aurora-background">
-/* Aurora hijau-lime lembut: latar hidup, tetapi tetap nyaman dibaca */
+/* Aurora hijau-lime lebih terlihat, tetap lembut dan tidak mengganggu konten */
+html{min-height:100%;background:#f3f8f5}
 body{
-  background-color:#f3f8f5;
-  background-image:
-    radial-gradient(ellipse 58% 42% at 8% 9%, rgba(166,233,0,.17) 0%, rgba(166,233,0,.075) 38%, transparent 76%),
-    radial-gradient(ellipse 52% 44% at 91% 20%, rgba(0,155,131,.13) 0%, rgba(0,155,131,.055) 42%, transparent 78%),
-    radial-gradient(ellipse 62% 42% at 52% 96%, rgba(190,224,91,.13) 0%, rgba(190,224,91,.045) 44%, transparent 78%),
-    linear-gradient(135deg,#f7faf5 0%,#f1f8f4 48%,#f6f9ef 100%);
-  background-attachment:fixed;
+  position:relative;isolation:isolate;min-height:100vh;
+  background:linear-gradient(135deg,#f7faf5 0%,#f1f8f4 48%,#f6f9ef 100%)!important;
 }
+body:before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 52% at 4% 8%,rgba(166,233,0,.24) 0%,rgba(166,233,0,.13) 35%,transparent 76%),
+    radial-gradient(ellipse 64% 55% at 96% 22%,rgba(0,155,131,.20) 0%,rgba(0,155,131,.10) 39%,transparent 78%),
+    radial-gradient(ellipse 72% 48% at 52% 100%,rgba(190,224,91,.21) 0%,rgba(190,224,91,.09) 42%,transparent 80%);
+  filter:blur(9px);
+}
+.wrap{background:transparent!important}
 @media(max-width:760px){
-  body{background-attachment:scroll}
+  body:before{position:absolute;min-height:100%;filter:blur(5px)}
 }
 </style>
