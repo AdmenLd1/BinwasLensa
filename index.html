@@ -548,10 +548,24 @@ async function loadSemesterData(){
   indicators=(ir.data||[]).map(x=>({n:Number(x.nomor),section:x.bagian,subBagian:x.subBagian||'',name:x.soal||('Indikator '+x.nomor),soal:x.soal||'',doText:x.do||'',dakung:x.dakung||''}));
   docs[semester]={};assessments[semester]={};
   (dr.data||[]).forEach(d=>{const k=key(d.nomor);(docs[semester][k]||(docs[semester][k]=[])).push(d)});
-  (ar.data||[]).forEach(a=>{assessments[semester][key(a.nomor)]=a.status});\n  semesterIIDocs={};(copyDest.data||[]).forEach(d=>{const k=key(d.nomor);(semesterIIDocs[k]||(semesterIIDocs[k]=[])).push(d)});
+  (ar.data||[]).forEach(a=>{assessments[semester][key(a.nomor)]=a.status});
+  semesterIIDocs={};(copyDest.data||[]).forEach(d=>{const k=key(d.nomor);(semesterIIDocs[k]||(semesterIIDocs[k]=[])).push(d)});
   if(indicators.length!==87) console.warn('Jumlah indikator yang diterima:',indicators.length);
 }
-function getSemesterIICopyState(n){\n const source=docs[1][key(n)]||[];\n if(!source.length)return {state:'none',copied:0,total:0};\n const targetIds=new Set((semesterIIDocs[key(n)]||[]).map(d=>String(d.fileId)));\n const copied=source.filter(d=>targetIds.has(String(d.fileId))).length;\n return {state:copied===source.length?'done':copied>0?'partial':'pending',copied,total:source.length};\n}\nfunction updateCopyButton(){\n const btn=document.getElementById('copySemesterBtn');if(!btn)return;\n const info=getSemesterIICopyState(current);\n btn.disabled=info.state==='done'||info.state==='none';\n btn.textContent=info.state==='done'?'Sudah disalin ✓':info.state==='partial'?'Salin dokumen tersisa →':info.state==='none'?'Belum ada dokumen':'Salin ke Semester II →';\n}\nfunction getIndicatorStatus(n){
+function getSemesterIICopyState(n){
+ const source=docs[1][key(n)]||[];
+ if(!source.length)return {state:'none',copied:0,total:0};
+ const targetIds=new Set((semesterIIDocs[key(n)]||[]).map(d=>String(d.fileId)));
+ const copied=source.filter(d=>targetIds.has(String(d.fileId))).length;
+ return {state:copied===source.length?'done':copied>0?'partial':'pending',copied,total:source.length};
+}
+function updateCopyButton(){
+ const btn=document.getElementById('copySemesterBtn');if(!btn)return;
+ const info=getSemesterIICopyState(current);
+ btn.disabled=info.state==='done'||info.state==='none';
+ btn.textContent=info.state==='done'?'Sudah disalin ✓':info.state==='partial'?'Salin dokumen tersisa →':info.state==='none'?'Belum ada dokumen':'Salin ke Semester II →';
+}
+function getIndicatorStatus(n){
  const hasDocs=(docs[semester][key(n)]||[]).length>0;
  if(hasDocs)return 'done';
  if(assessments[semester][key(n)]==='TIDAK')return 'notfilled';
@@ -613,7 +627,8 @@ function renderList(){
    const label=status==='done'?'Sudah Diisi':status==='notfilled'?'Tidak Diisi':'Belum Diisi';
    const cls=status==='done'?'done':status==='notfilled'?'no':'';
    const manual=status==='notfilled'?'TIDAK':'AUTO';
-   const copyLabel=copyState?(copyState.state==='done'?'Sudah disalin ke Semester II':copyState.state==='partial'?'Sebagian disalin ke Semester II':copyState.state==='none'?'Belum ada dokumen untuk disalin':'Belum disalin ke Semester II'):'';\n   return '<div class="indicator"><div class="num">'+String(x.n).padStart(2,'0')+'</div><div class="indtext"><b>'+escapeHtml(x.name)+'</b><small>Sub Bag '+escapeHtml(x.subBagian||'—')+' · '+count+' dokumen</small>'+(copyState?'<small class="copy-state '+copyState.state+'">'+copyLabel+(copyState.state==='partial'?' ('+copyState.copied+'/'+copyState.total+')':'')+'</small>':'')+'</div><span class="status '+cls+'">'+label+'</span><select class="assess-select" aria-label="Status pengisian indikator '+x.n+'" onchange="saveAssessment('+x.n+',this.value)"><option value="AUTO" '+(manual==='AUTO'?'selected':'')+'>Otomatis</option><option value="TIDAK" '+(manual==='TIDAK'?'selected':'')+'>Tidak Diisi</option></select><button class="btn ghost" onclick="openDetail('+x.n+')">Detail</button></div>';
+   const copyLabel=copyState?(copyState.state==='done'?'Sudah disalin ke Semester II':copyState.state==='partial'?'Sebagian disalin ke Semester II':copyState.state==='none'?'Belum ada dokumen untuk disalin':'Belum disalin ke Semester II'):'';
+   return '<div class="indicator"><div class="num">'+String(x.n).padStart(2,'0')+'</div><div class="indtext"><b>'+escapeHtml(x.name)+'</b><small>Sub Bag '+escapeHtml(x.subBagian||'—')+' · '+count+' dokumen</small>'+(copyState?'<small class="copy-state '+copyState.state+'">'+copyLabel+(copyState.state==='partial'?' ('+copyState.copied+'/'+copyState.total+')':'')+'</small>':'')+'</div><span class="status '+cls+'">'+label+'</span><select class="assess-select" aria-label="Status pengisian indikator '+x.n+'" onchange="saveAssessment('+x.n+',this.value)"><option value="AUTO" '+(manual==='AUTO'?'selected':'')+'>Otomatis</option><option value="TIDAK" '+(manual==='TIDAK'?'selected':'')+'>Tidak Diisi</option></select><button class="btn ghost" onclick="openDetail('+x.n+')">Detail</button></div>';
   }).join('');
   const complete=items.filter(x=>getIndicatorStatus(x.n)==='done').length;
   const remaining=items.length-complete;
@@ -693,7 +708,8 @@ async function copyIndicatorToSemesterII(){
  try{
   const r=await apiPost({action:'copyDocumentsToSemesterII',tahun:'2026',nomor:current});
   if(!r.ok)throw new Error(r.error||'Gagal menyalin referensi dokumen');
-  await loadSemesterData();renderList();updateCopyButton();\n  notify(r.copied>0?'Berhasil disalin':'Dokumen sudah tersedia',r.copied+' dokumen baru ditautkan ke Semester II'+(r.skipped?' · '+r.skipped+' sudah tersedia sebelumnya':'')); 
+  await loadSemesterData();renderList();updateCopyButton();
+  notify(r.copied>0?'Berhasil disalin':'Dokumen sudah tersedia',r.copied+' dokumen baru ditautkan ke Semester II'+(r.skipped?' · '+r.skipped+' sudah tersedia sebelumnya':'')); 
  }catch(e){notify('Gagal menyalin dokumen',e.message,'error')}
  finally{updateCopyButton()}
 }
