@@ -497,7 +497,7 @@ body{font-size:15px;line-height:1.55;color:#20334b;background:#f5f7fb;letter-spa
 <script>
 
 const API_URL = "https://script.google.com/macros/s/AKfycbzNfYAHef-eB_yJ_F_GoLeeZDYmSuh77KfdsW5WuIgznb1fOTOFfI9Fa8NgfwRpUC80_Q/exec";
-let semester=1,current=1,indicators=[],docs={1:{},2:{}},assessments={1:{},2:{}};
+let semester=1,current=1,indicators=[],docs={1:{},2:{}},assessments={1:{},2:{}},semesterIIDocs={};
 async function apiGet(action, params={}) {
   const u=new URL(API_URL); u.searchParams.set('action',action);
   Object.entries(params).forEach(([k,v])=>{if(v!==undefined&&v!==null&&v!=='')u.searchParams.set(k,v)});
@@ -542,16 +542,16 @@ function openYear(y){if(y===2026)go('semesters')}
 async function openSemester(s){semester=s;showLoading("Memuat indikator","Mengambil instrumen dan status dokumen...");document.getElementById('moduleTitle').textContent='Indikator · Semester '+(s===1?'I':'II')+' · 2026';go('modules');document.getElementById('list').innerHTML='<div class="empty">Memuat data indikator dan dokumen...</div>';try{await loadSemesterData();renderList()}catch(e){document.getElementById('list').innerHTML='<div class="empty">Gagal memuat data: '+escapeHtml(e.message)+'</div>';notify('Gagal memuat data',e.message,'error')}finally{hideLoading()}}
 function key(n){return 'i'+n}
 async function loadSemesterData(){
-  const [ir,dr,ar]=await Promise.all([apiGet('indicators',{tahun:2026}),apiGet('documents',{tahun:2026,semester:'SEMESTER '+(semester===1?'I':'II')}),apiGet('assessments',{tahun:2026,semester:'SEMESTER '+(semester===1?'I':'II')})]);
+  const [ir,dr,ar,copyDest]=await Promise.all([apiGet('indicators',{tahun:2026}),apiGet('documents',{tahun:2026,semester:'SEMESTER '+(semester===1?'I':'II')}),apiGet('assessments',{tahun:2026,semester:'SEMESTER '+(semester===1?'I':'II')}),semester===1?apiGet('documents',{tahun:2026,semester:'SEMESTER II'}):Promise.resolve({ok:true,data:[]})]);
   if(!ir.ok)throw new Error(ir.error||'Data indikator gagal dibaca');
-  if(!dr.ok)throw new Error(dr.error||'Data dokumen gagal dibaca');if(!ar.ok)throw new Error(ar.error||'Data penilaian gagal dibaca');
+  if(!dr.ok)throw new Error(dr.error||'Data dokumen gagal dibaca');if(!ar.ok)throw new Error(ar.error||'Data penilaian gagal dibaca');if(!copyDest.ok)throw new Error(copyDest.error||'Status salin Semester II gagal dibaca');
   indicators=(ir.data||[]).map(x=>({n:Number(x.nomor),section:x.bagian,subBagian:x.subBagian||'',name:x.soal||('Indikator '+x.nomor),soal:x.soal||'',doText:x.do||'',dakung:x.dakung||''}));
   docs[semester]={};assessments[semester]={};
   (dr.data||[]).forEach(d=>{const k=key(d.nomor);(docs[semester][k]||(docs[semester][k]=[])).push(d)});
-  (ar.data||[]).forEach(a=>{assessments[semester][key(a.nomor)]=a.status});
+  (ar.data||[]).forEach(a=>{assessments[semester][key(a.nomor)]=a.status});\n  semesterIIDocs={};(copyDest.data||[]).forEach(d=>{const k=key(d.nomor);(semesterIIDocs[k]||(semesterIIDocs[k]=[])).push(d)});
   if(indicators.length!==87) console.warn('Jumlah indikator yang diterima:',indicators.length);
 }
-function getIndicatorStatus(n){
+function getSemesterIICopyState(n){\n const source=docs[1][key(n)]||[];\n if(!source.length)return {state:'none',copied:0,total:0};\n const targetIds=new Set((semesterIIDocs[key(n)]||[]).map(d=>String(d.fileId)));\n const copied=source.filter(d=>targetIds.has(String(d.fileId))).length;\n return {state:copied===source.length?'done':copied>0?'partial':'pending',copied,total:source.length};\n}\nfunction updateCopyButton(){\n const btn=document.getElementById('copySemesterBtn');if(!btn)return;\n const info=getSemesterIICopyState(current);\n btn.disabled=info.state==='done'||info.state==='none';\n btn.textContent=info.state==='done'?'Sudah disalin ✓':info.state==='partial'?'Salin dokumen tersisa →':info.state==='none'?'Belum ada dokumen':'Salin ke Semester II →';\n}\nfunction getIndicatorStatus(n){
  const hasDocs=(docs[semester][key(n)]||[]).length>0;
  if(hasDocs)return 'done';
  if(assessments[semester][key(n)]==='TIDAK')return 'notfilled';
@@ -609,11 +609,11 @@ function renderList(){
  document.getElementById('list').innerHTML=[...grouped.values()].map((group,idx)=>{
   const g=group.meta,items=group.items;
   const rows=items.map(x=>{
-   const count=(docs[semester][key(x.n)]||[]).length,status=getIndicatorStatus(x.n);
+   const count=(docs[semester][key(x.n)]||[]).length,status=getIndicatorStatus(x.n),copyState=semester===1?getSemesterIICopyState(x.n):null;
    const label=status==='done'?'Sudah Diisi':status==='notfilled'?'Tidak Diisi':'Belum Diisi';
    const cls=status==='done'?'done':status==='notfilled'?'no':'';
    const manual=status==='notfilled'?'TIDAK':'AUTO';
-   return '<div class="indicator"><div class="num">'+String(x.n).padStart(2,'0')+'</div><div class="indtext"><b>'+escapeHtml(x.name)+'</b><small>Sub Bag '+escapeHtml(x.subBagian||'—')+' · '+count+' dokumen</small></div><span class="status '+cls+'">'+label+'</span><select class="assess-select" aria-label="Status pengisian indikator '+x.n+'" onchange="saveAssessment('+x.n+',this.value)"><option value="AUTO" '+(manual==='AUTO'?'selected':'')+'>Otomatis</option><option value="TIDAK" '+(manual==='TIDAK'?'selected':'')+'>Tidak Diisi</option></select><button class="btn ghost" onclick="openDetail('+x.n+')">Detail</button></div>';
+   const copyLabel=copyState?(copyState.state==='done'?'Sudah disalin ke Semester II':copyState.state==='partial'?'Sebagian disalin ke Semester II':copyState.state==='none'?'Belum ada dokumen untuk disalin':'Belum disalin ke Semester II'):'';\n   return '<div class="indicator"><div class="num">'+String(x.n).padStart(2,'0')+'</div><div class="indtext"><b>'+escapeHtml(x.name)+'</b><small>Sub Bag '+escapeHtml(x.subBagian||'—')+' · '+count+' dokumen</small>'+(copyState?'<small class="copy-state '+copyState.state+'">'+copyLabel+(copyState.state==='partial'?' ('+copyState.copied+'/'+copyState.total+')':'')+'</small>':'')+'</div><span class="status '+cls+'">'+label+'</span><select class="assess-select" aria-label="Status pengisian indikator '+x.n+'" onchange="saveAssessment('+x.n+',this.value)"><option value="AUTO" '+(manual==='AUTO'?'selected':'')+'>Otomatis</option><option value="TIDAK" '+(manual==='TIDAK'?'selected':'')+'>Tidak Diisi</option></select><button class="btn ghost" onclick="openDetail('+x.n+')">Detail</button></div>';
   }).join('');
   const complete=items.filter(x=>getIndicatorStatus(x.n)==='done').length;
   const remaining=items.length-complete;
@@ -630,7 +630,7 @@ function openDetail(n){
   document.getElementById('question').textContent=x.soal;
   document.getElementById('doText').textContent=x.doText;
   document.getElementById('dakungText').textContent=x.dakung;
-  document.getElementById('detailAssessment').value=assessments[semester][key(n)]==='TIDAK'?'TIDAK':'AUTO';document.getElementById('copySemesterBox').classList.toggle('hidden',semester!==1);window.currentIndicatorFolderUrl='';go('detail');renderFolderLink();renderFiles();
+  document.getElementById('detailAssessment').value=assessments[semester][key(n)]==='TIDAK'?'TIDAK':'AUTO';document.getElementById('copySemesterBox').classList.toggle('hidden',semester!==1);updateCopyButton();window.currentIndicatorFolderUrl='';go('detail');renderFolderLink();renderFiles();
 }
 
 async function renderFolderLink(){
@@ -693,9 +693,9 @@ async function copyIndicatorToSemesterII(){
  try{
   const r=await apiPost({action:'copyDocumentsToSemesterII',tahun:'2026',nomor:current});
   if(!r.ok)throw new Error(r.error||'Gagal menyalin referensi dokumen');
-  notify('Berhasil disalin',r.copied+' dokumen tersedia pada indikator '+current+' Semester II'+(r.skipped?' · '+r.skipped+' sudah ada':'')); 
+  await loadSemesterData();renderList();updateCopyButton();\n  notify(r.copied>0?'Berhasil disalin':'Dokumen sudah tersedia',r.copied+' dokumen baru ditautkan ke Semester II'+(r.skipped?' · '+r.skipped+' sudah tersedia sebelumnya':'')); 
  }catch(e){notify('Gagal menyalin dokumen',e.message,'error')}
- finally{btn.disabled=false;btn.textContent='Salin ke Semester II →'}
+ finally{updateCopyButton()}
 }
 
 async function saveAssessment(n,choice){
@@ -1164,4 +1164,15 @@ body{background:var(--bg);color:var(--ink)}
  .hero-editorial-logo{width:62px;height:62px;flex-basis:62px}
  .hero-editorial-brand{gap:12px}
 }
+</style>
+
+<style id="binwas-semester-copy-status">
+/* Status salin Semester II pada setiap kartu indikator */
+.indicator .indtext .copy-state{display:block;margin-top:5px;font-size:11px;font-weight:700;line-height:1.45}
+.indicator .indtext .copy-state.done{color:#087b53}
+.indicator .indtext .copy-state.partial{color:#a66b12}
+.indicator .indtext .copy-state.pending{color:#b26b18}
+.indicator .indtext .copy-state.none{color:#87958e;font-weight:500}
+#copySemesterBtn:disabled{opacity:.68;cursor:not-allowed;filter:saturate(.65);transform:none}
+@media(max-width:600px){.indicator .indtext .copy-state{font-size:10px}}
 </style>
