@@ -493,7 +493,7 @@ body{font-size:15px;line-height:1.55;color:#20334b;background:#f5f7fb;letter-spa
 <div class="drop-icon">⇧</div><b>Tarik dan letakkan dokumen di sini</b><small>atau klik untuk memilih beberapa file sekaligus<br>Format: PDF, Word, Excel, JPG, PNG · Maksimal 8 MB per file</small><div id="fileQueue" class="file-queue"></div>
 </div><div id="uploadProgress" class="upload-progress hidden" aria-live="polite"><div class="upload-progress-head"><span>Progres unggahan</span><span id="uploadProgressCount">0/0</span></div><div class="upload-progress-track"><div id="uploadProgressFill" class="upload-progress-fill"></div></div><div class="upload-progress-summary"><span id="uploadProgressSummary">Menunggu unggahan</span><span id="uploadProgressActive">0 sedang diproses</span></div><div id="uploadProgressRows"></div></div><input id="fileInput" type="file" multiple hidden onchange="addFiles(event)"><div class="empty" id="fileList" style="margin-top:14px">Memuat dokumen...</div><div class="sub" style="margin-top:10px">Dokumen disimpan di Google Drive dan tercatat pada database BinwasLensa.</div></section>
 <div id="loadingMask" class="loading-mask hidden"><div class="loading-card"><div class="loader"></div><b id="loadingTitle">Sedang memproses...</b><small id="loadingText">Mohon tunggu sebentar. Jangan tutup halaman ini.</small></div></div><div id="toastWrap" class="toast-wrap"></div>
-<div class="footer">BINWASLENSA · PUSKESMAS LENDAH I · 2026</div></div>
+<div class="footer">BINWAS SDMK LENSA · PUSKESMAS LENDAH I · 2026 · V1</div></div>
 <script>
 
 const API_URL = "https://script.google.com/macros/s/AKfycbzNfYAHef-eB_yJ_F_GoLeeZDYmSuh77KfdsW5WuIgznb1fOTOFfI9Fa8NgfwRpUC80_Q/exec";
@@ -1286,4 +1286,8 @@ body{
       url("./assets/Background%20web-lensa.jpg") center center / cover scroll no-repeat!important;
   }
 }
+</style>
+
+<style id="binwas-footer-white">
+.footer{color:#fff!important;text-shadow:0 1px 4px rgba(0,55,30,.55);font-weight:600;letter-spacing:.45px}
 </style>
