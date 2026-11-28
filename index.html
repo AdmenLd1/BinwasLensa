@@ -1245,3 +1245,28 @@ body:before{content:none!important;display:none!important}
   }
 }
 </style>
+
+
+<style id="binwas-github-image-background-bold">
+/* Tingkatkan keberanian warna background Lensa, konten tetap kontras */
+body{
+  background:
+    linear-gradient(rgba(247,251,246,.38),rgba(247,251,246,.44)),
+    url("./assets/Background%20web-lensa.jpg") center center / cover fixed no-repeat!important;
+  background-color:#d6edc9!important;
+}
+.panel,.subgroup,.indicator,.year,.semester{
+  background-color:rgba(255,255,255,.98)!important;
+  backdrop-filter:blur(2px);
+}
+.top{background:rgba(248,252,247,.78);border-radius:14px;padding:10px 14px 16px}
+.crumb{color:#355f49;text-shadow:0 1px 0 rgba(255,255,255,.5)}
+@media(max-width:760px){
+ body{
+  background:
+    linear-gradient(rgba(247,251,246,.42),rgba(247,251,246,.48)),
+    url("./assets/Background%20web-lensa.jpg") center center / cover scroll no-repeat!important;
+ }
+ .top{background:rgba(248,252,247,.86)}
+}
+</style>
